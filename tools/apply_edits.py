@@ -104,7 +104,9 @@ def main():
             else: manual.append((page, t)); print('  [%s] 수동 확인: %s → %s' % (page, strip(t['old'])[:40], strip(t['new'])[:40]))
         if n: open(path, 'w', encoding='utf-8').write(s)
         for im in pg.get('images', []):
-            print('  [%s] 사진 %s' % (page, apply_image(im)))
+            try: r = apply_image(im)
+            except Exception as e: r = '실패(%s): %s — 사진을 다시 받아야 합니다' % (e, im.get('src'))
+            print('  [%s] 사진 %s' % (page, r))
     if manual:
         print('\n수동 확인 %d건 (원문을 못 찾음 — 페이지가 그새 바뀌었을 수 있음):' % len(manual))
         for page, t in manual: print('  -', page, '|', t['sel'], '\n     원문:', t['old'][:120], '\n     새글:', t['new'][:120])
