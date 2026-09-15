@@ -12,7 +12,8 @@ portfolio.html    현장 사진 39장 (필터 · 라이트박스) + 행사 이�
 contact.html      견적 문의 (준비물 4 · 폼 · 자주 묻는 질문 7)
 assets/style.css  스타일 (화이트 + 네이비 #0B1B33 + 브랜드 블루 #005DCF)
 assets/app.js     스크립트 (슬라이더 · 탭 · 갤러리 · 라이트박스 · 블로그 목록 · 공지 · 문의 폼 · 견적 요청서)
-assets/img/       hero 5 · sec 32 · works 39 — 전부 이에스컴퍼니 네이버 블로그의 실제 현장 사진(원본 크기)을 webp 로 변환
+assets/img/       logo-h.svg · logo-h-white.svg · logo-mark.svg(=favicon) — 최종 CI(.ai) 벡터 그대로
+                  hero 5 · sec 32 · works 39 — 전부 이에스컴퍼니 네이버 블로그의 실제 현장 사진(원본 크기)을 webp 로 변환
 ```
 
 ## 보기
@@ -43,6 +44,11 @@ npx -y http-server C:/Users/gilau/Documents/es-company -p 8179 -c-1
 5. **운영 지역 시 · 군 목록**(`about.html` `#region`)의 충남 · 세종 · 대전 시군은 일반 목록이다. 실제로 안 가는 곳이 있으면 뺀다.
 6. **공지사항**은 `app.js` 맨 위 `NOTICES`. 날짜 · 제목만 적으면 대문에 뜬다.
 7. **블로그 목록**은 `app.js` `BLOG` 배열(2026-09-15 RSS 기준 50편). 새 글은 맨 앞에 한 줄 추가.
+
+## 로고
+
+2026-09-15 카톡으로 받은 `이에스컴퍼니최종로고.ai`(별디자인 제작)에서 PyMuPDF 로 벡터를 뽑아 SVG 로 넣었다.
+색은 로고의 진남색 #002561 · 파랑 #074EA2 를 사이트 포인트 색(`--acc`)으로 맞췄다.
 
 ## 오픈할 때 바꿀 것
 
