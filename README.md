@@ -10,9 +10,13 @@ about.html        회사소개 (인사말 · 세 가지 약속 · 운영 지역 
 service.html      서비스 · 렌탈 품목 9 · 견적 요청서 만들기(품목 · 수량 고르면 요청서 글이 완성 → 문자 · 복사 · 문의 폼)
 portfolio.html    현장 사진 39장 (필터 · 라이트박스) + 행사 이야기(네이버 블로그 글 50편 목록)
 contact.html      견적 문의 (준비물 4 · 폼 · 자주 묻는 질문 7)
+blog/             행사 가이드 10편 + index.html — tools/build_blog.py 가 만든다 (손으로 고치지 말 것)
+tools/build_blog.py  글 내용 · SEO 주입 · sitemap 생성 스크립트. 글을 고치거나 도메인이 바뀌면 여기 고치고 다시 실행
+sitemap.xml · robots.txt   build_blog.py 가 만든다
 assets/style.css  스타일 (화이트 + 네이비 #0B1B33 + 브랜드 블루 #005DCF)
 assets/app.js     스크립트 (슬라이더 · 탭 · 갤러리 · 라이트박스 · 블로그 목록 · 공지 · 문의 폼 · 견적 요청서)
-assets/img/       logo-h.svg · logo-h-white.svg · logo-mark.svg(=favicon) — 최종 CI(.ai) 벡터 그대로
+assets/img/       og.jpg(1200×630, 로고 + 문구) · blog/b00~b28.webp(카톡으로 받은 현장 사진 29장)
+                  logo-h.svg · logo-h-white.svg · logo-mark.svg(=favicon) — 최종 CI(.ai) 벡터 그대로
                   hero 5 · sec 32 · works 39 — 전부 이에스컴퍼니 네이버 블로그의 실제 현장 사진(원본 크기)을 webp 로 변환
 ```
 
@@ -50,11 +54,20 @@ npx -y http-server C:/Users/gilau/Documents/es-company -p 8179 -c-1
 2026-09-15 카톡으로 받은 `이에스컴퍼니최종로고.ai`(별디자인 제작)에서 PyMuPDF 로 벡터를 뽑아 SVG 로 넣었다.
 색은 로고의 진남색 #002561 · 파랑 #074EA2 를 사이트 포인트 색(`--acc`)으로 맞췄다.
 
+## 검색 최적화 (2026-09-15)
+
+- 모든 페이지: canonical · og:url · og:image(절대 주소) · keywords · geo 메타 · `LocalBusiness` JSON-LD(주소 · 좌표 · 운영 지역 17곳 · 서비스 3종). 검색 차단(noindex)은 뺐다.
+- 서브 페이지 `BreadcrumbList`, 견적문의 `FAQPage`, 대문 `WebSite`.
+- 행사 가이드 10편: 지역(청주 3 · 충주 · 세종 · 단양 · 진천 · 대전 · 충북 · 충청권) × 상황(운동회 · 기업행사 · 체육관 · 축제 부스 · 플리마켓 · 공원 행사 · 세미나 · 야간 체육 · 기념식 · 대형 축제). 글마다 `BlogPosting` + `FAQPage` + 사진 2~4장 + 관련 글 · 품목 링크. AI 검색이 인용하기 쉽게 질문형 제목 · 숫자 기준 · 표 · FAQ 로 썼다.
+- 도메인이 바뀌면 `tools/build_blog.py` 의 `BASE` 를 고치고 실행 → blog · sitemap · 본문 5장의 주소가 한 번에 바뀐다.
+- **형님이 직접**: 네이버 서치어드바이저(searchadvisor.naver.com) · 구글 서치콘솔에 사이트 등록 → 소유확인 메타 태그를 받아 index.html `<head>` 에 넣고 → `sitemap.xml` 제출. 네이버는 「웹 페이지 수집 요청」으로 대문과 blog/index.html 을 먼저 넣는다.
+- 글 내용은 블로그 글 · 사진 · 일반 기준으로 썼다. 수치(천막 한 동 20~25명, 400석 3시간 등)는 현장 감각 기준이니 박미배 대표가 한 번 훑어보고 회사 기준과 다르면 `tools/build_blog.py` 의 글에서 고친다.
+
 ## 오픈할 때 바꿀 것
 
-1. 다섯 페이지의 `<meta name="robots" content="noindex,nofollow">` 지우기 (도메인 연결 전까지 검색 차단).
+1. (완료) 검색 차단 해제 — 2026-09-15 github.io 주소로 검색 허용.
 2. `assets/app.js` 맨 위 `FORM_ENDPOINT` 에 문의 접수 서버(Apps Script) 주소 넣기.
    비어 있으면 폰에서는 문자 앱(010-2084-0102)이 열리고, PC 에서는 내용을 복사해 준 뒤 전화를 안내한다. 견적 요청서도 같은 길을 탄다.
-3. `og:image` 를 실제 주소(https://도메인/assets/img/hero/h1.webp)로.
+3. (완료) og:image = assets/img/og.jpg. 도메인 바뀌면 build_blog.py 재실행.
 4. 도메인 연결 뒤 sitemap · 네이버 서치어드바이저 · 구글 서치콘솔 등록 (계약 범위: 네이버 · 구글 검색등록).
 5. 계약에 같이 들어 있는 것: 자동 계약서 작성 · 서명, 모바일 명함 + 콜백 문자, AI 검색 최적화 블로그 글 10개 — 이 폴더가 아니라 큰길브리지(ai-make) 쪽 도구로 따로 진행.

@@ -136,8 +136,11 @@
   if (totop) totop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
 
   // 현재 페이지 메뉴 표시
-  var here = (location.pathname.split('/').pop() || 'index.html');
-  $$('.bar .menu a, .sheet nav a').forEach(function (a) { if (a.getAttribute('href') === here + location.hash) a.classList.add('act'); });
+  var curPath = location.pathname.replace(/\/$/, '/index.html'), inBlog = curPath.indexOf('/blog/') >= 0;
+  $$('.bar .menu a, .sheet nav a').forEach(function (a) {
+    var u = new URL(a.getAttribute('href'), location.href), p = u.pathname.replace(/\/$/, '/index.html');
+    if ((p === curPath && u.hash === location.hash) || (inBlog && /\/blog\/index\.html$/.test(p))) a.classList.add('act');
+  });
 
   var burger = $('#burger'), sheet = $('#sheet');
   function closeSheet() { if (!sheet) return; sheet.classList.remove('on'); if (burger) { burger.classList.remove('x'); burger.setAttribute('aria-expanded', 'false'); } document.body.style.overflow = ''; }
