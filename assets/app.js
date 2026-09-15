@@ -139,7 +139,7 @@
   var curPath = location.pathname.replace(/\/$/, '/index.html'), inBlog = curPath.indexOf('/blog/') >= 0;
   $$('.bar .menu a, .sheet nav a').forEach(function (a) {
     var u = new URL(a.getAttribute('href'), location.href), p = u.pathname.replace(/\/$/, '/index.html');
-    if ((p === curPath && u.hash === location.hash) || (inBlog && /\/blog\/index\.html$/.test(p))) a.classList.add('act');
+    if ((p === curPath && (!u.hash || u.hash === location.hash)) || (inBlog && /\/blog\/index\.html$/.test(p))) a.classList.add('act');
   });
 
   var burger = $('#burger'), sheet = $('#sheet');
