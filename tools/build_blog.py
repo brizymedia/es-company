@@ -313,11 +313,11 @@ def business_ld():
         "geo": {"@type": "GeoCoordinates", "latitude": 36.6715486, "longitude": 127.3735257},
         "areaServed": [{"@type": "AdministrativeArea", "name": a} for a in AREAS],
         "sameAs": ["https://blog.naver.com/esgroup0102"],
-        "knowsAbout": ["행사용품 렌탈", "천막 대여", "몽골텐트 대여", "테이블 의자 대여", "무대 음향 조명 렌탈", "학교 운동회", "체육대회", "지역 축제", "기업행사", "협약식 기념식", "세미나 박람회 세팅", "하드펜스"],
+        "knowsAbout": ["행사용품 렌탈", "천막 대여", "몽골텐트 대여", "테이블 의자 대여", "무대 음향 렌탈", "학교 운동회", "체육대회", "지역 축제", "기업행사", "협약식 기념식", "세미나 박람회 세팅", "하드펜스"],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "이에스컴퍼니 서비스", "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "행사기획", "description": "행사 목적 · 인원 · 장소 조건에 맞춘 공간 구성과 품목 · 수량 제안, 설치 · 철거 일정 조율"}},
-            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "시스템렌탈", "description": "무대 · 연단 · 음향(스피커 · 마이크 · 믹서) · 조명 · LED 스크린 렌탈과 운영"}},
-            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "행사용품렌탈", "description": "캐노피 천막 · 몽골텐트 · 가림막 · 접이식 · 원형 테이블 · 의자 · 캠핑의자 · 의자 커버 · 하드펜스 · 배너 렌탈, 설치 · 철거 포함"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "시스템렌탈", "description": "무대 · 연단 · 음향(스피커 · 마이크 · 믹서) 렌탈과 운영"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "행사용품렌탈", "description": "캐노피천막 · 몽골텐트 · 부스천막 · 듀라테이블 · 파라솔세트 · 의자 · 포토존 트러스 · 캠핑세트 · 나무매대 · 하드펜스 · 차단봉 · 다과테이블 · 아크릴단상 · 배너 렌탈, 설치 · 철거 포함"}},
         ]},
     }
 
@@ -476,7 +476,7 @@ PAGES = {
     'index.html': {'kw': ['청주 행사용품 렌탈', '청주 천막 대여', '충북 행사 장비 렌탈', '세종 행사 렌탈', '대전 행사 렌탈', '충남 천안 행사 천막', '무대 음향 조명 렌탈', '테이블 의자 대여', '몽골텐트 대여', '행사기획', '이에스컴퍼니'],
                    'title': '이에스컴퍼니 | 청주 행사용품 렌탈 · 천막 · 테이블 · 의자 · 무대 음향 조명 — 충북 · 충남 · 세종 · 대전', 'crumb': None},
     'about.html': {'kw': ['이에스컴퍼니 소개', '청주 행사 렌탈 업체', '옥산면 행사용품', '충북 행사 파트너', '박미배'], 'title': None, 'crumb': [('회사소개', 'about.html')]},
-    'service.html': {'kw': ['캐노피 천막 대여', '몽골텐트 렌탈', '접이식 테이블 대여', '원형 테이블 테이블보', '캠핑의자 렌탈', '의자 커버 렌탈', '무대 연단 렌탈', '음향 마이크 스피커 대여', '조명 LED 스크린 렌탈', '하드펜스 대여', '청주 행사 견적'], 'title': None, 'crumb': [('서비스 · 렌탈품목', 'service.html')]},
+    'service.html': {'kw': ['캐노피천막 대여', '몽골텐트 렌탈', '부스천막 대여', '듀라테이블 대여', '파라솔세트 렌탈', '의자 대여', '무대 음향 렌탈', '포토존 트러스 대여', '캠핑세트 렌탈', '나무매대 대여', '하드펜스 차단봉 대여', '청주 행사 견적'], 'title': None, 'crumb': [('서비스 · 렌탈품목', 'service.html')]},
     'portfolio.html': {'kw': ['행사 현장 사진', '청주 축제 부스', '학교 운동회 천막 사진', '기업행사 세팅 사례', '협약식 세팅', '세미나 테이블 세팅'], 'title': None, 'crumb': [('현장사진', 'portfolio.html')]},
     'contact.html': {'kw': ['청주 행사 렌탈 견적', '천막 대여 문의', '행사용품 렌탈 문의', '충북 행사 견적 문의'], 'title': None, 'crumb': [('견적문의', 'contact.html')]},
 }
