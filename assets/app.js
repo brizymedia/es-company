@@ -8,7 +8,7 @@
   /* ---------- 회사 정보 · 문의 폼 전송처 ----------
      FORM_ENDPOINT 가 비어 있으면 휴대폰에서는 문자 앱이 열리고, PC 에서는 내용을 복사해 준다.
      Apps Script(문의 서버) 주소를 넣으면 그쪽으로 JSON 이 간다. */
-  var FORM_ENDPOINT = '';
+  var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwvQ4UJRZklRX7bZB6C0s1yZgSvBAMCVccT580L_1BtiVDyh0DIxShCAvN9McZIB0b7FA/exec';  // 큰길브리지 공용 문의 서버 — 이에스컴퍼니 문의는 대표 메일 + 큰길브리지로 간다
   var SMS_TO = '010-2084-0102';
   var COMPANY = '이에스컴퍼니';
 
@@ -273,7 +273,7 @@
       send(text, d, function (sent) {
         done.classList.add('on');
         if (!sent) $('p', done).innerHTML = '문의 내용을 복사해 두었습니다.<br><b>' + SMS_TO + '</b> 로 문자 · 전화 주시면 바로 상담됩니다.';
-      }, '행사 견적문의');
+      }, '[이에스컴퍼니] 행사 견적문의');
     });
   }
 
@@ -310,7 +310,7 @@
       if (!$('#cAgree').checked) { alert('개인정보 수집·이용에 동의해 주세요.'); return; }
       send(t, { name: val('name'), tel: val('tel'), type: val('type'), date: val('date'), place: val('place'), people: val('people') }, function (sent) {
         alert(sent ? '견적 요청서를 보냈습니다. 확인 후 1영업일 안에 연락드립니다.' : '요청서 내용을 복사해 두었습니다. ' + SMS_TO + ' 로 문자 · 전화 주시면 바로 상담됩니다.');
-      }, '렌탈 견적 요청서');
+      }, '[이에스컴퍼니] 렌탈 견적 요청서');
     });
     if (cc) cc.addEventListener('click', function () { var t = build(); if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { cc.textContent = '복사됨 ✓'; setTimeout(function () { cc.textContent = '요청서 내용 복사'; }, 1800); }); else { out.select(); document.execCommand('copy'); } });
     if (cf) cf.addEventListener('click', function () { location.href = 'contact.html#q=' + encodeURIComponent(build()); });
