@@ -12,7 +12,7 @@ import os, re, sys
 
 SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser('~/Documents/클로드코드')
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-HOME = 'https://brizymedia.github.io/es-company'   # 도메인이 정해지면 바꾸고 다시 돌린다
+HOME = 'https://www.es-company.co.kr'   # 도메인이 정해지면 바꾸고 다시 돌린다
 
 # 이에스컴퍼니 계약 서버(앱스 스크립트, apps-script/contract) — 형님이 배포하면 /exec 주소를 넣고 다시 돌린다. 비어 있으면 서버 없이 동작.
 ES_CONTRACT = 'https://script.google.com/macros/s/AKfycbxPDFzWN8wIOGglva2vDkBDzv1ap8yyrEUmrHPwK5io1II4bYlSFp6kMZk5JjYm6OeO5Q/exec'
@@ -32,8 +32,8 @@ COMMON = [
     ('주식회사 브리지미디어', '이에스컴퍼니'),
     ('큰길이벤트기획', '이에스컴퍼니'),
     ('[큰길이벤트]', '[이에스컴퍼니]'),
-    ('큰길이벤트.com/quote.html', 'brizymedia.github.io/es-company/quote.html'),
-    ('큰길이벤트.com', 'brizymedia.github.io/es-company'),
+    ('큰길이벤트.com/quote.html', 'www.es-company.co.kr/quote.html'),
+    ('큰길이벤트.com', 'www.es-company.co.kr'),
     ('김동길', '박미배'),
     ('813-81-02252', '710-09-02317'),
     ("corp:'204611-0065269'", "corp:''"),

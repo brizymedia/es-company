@@ -11,7 +11,7 @@
 """
 import os, re, json, html
 
-BASE = 'https://brizymedia.github.io/es-company/'   # ← 도메인 연결 뒤 https://도메인/ 으로 바꾸고 다시 실행
+BASE = 'https://www.es-company.co.kr/'   # ← 도메인 연결 뒤 https://도메인/ 으로 바꾸고 다시 실행
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEL = '010-2084-0102'
 ADDR = '충청북도 청주시 흥덕구 옥산면 오산가좌로 110-13, 1동 1층'

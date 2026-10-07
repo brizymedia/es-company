@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /tools/
 
-Sitemap: https://brizymedia.github.io/es-company/sitemap.xml
+Sitemap: https://www.es-company.co.kr/sitemap.xml
