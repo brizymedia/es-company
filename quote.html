@@ -339,10 +339,34 @@
               width:15mm!important;margin-left:1.5mm!important;transform:translateY(-42%)!important; }
     }
     .print-only{ display:none; }
+
+    /* 손님 화면 — 못 고치는 칸은 글자만 보이게 (테두리 · 커서 없이) */
+    .q-table input.locked{ background:transparent;border-color:transparent;cursor:default;color:#d4d4d8; }
+    .q-table input.locked:focus{ border-color:transparent;box-shadow:none; }
+
+    /* 손님 화면에서는 인쇄가 안 나간다 — 확정 견적서는 담당자가 보낸다 */
+    .cust-print{ display:none; }
+    @media print{
+      body.cust header,body.cust main,body.cust footer,body.cust .noise-overlay{ display:none!important; }
+      body.cust .cust-print{ display:block!important;padding:28mm 10mm;text-align:center;color:#111; }
+      body.cust .cust-print h2{ font-size:15pt;font-weight:800;margin-bottom:6mm; }
+      body.cust .cust-print p{ font-size:10.5pt;line-height:1.9;color:#333; }
+      body.cust .cust-print b{ font-size:12pt;color:#111; }
+    }
   </style>
   <script defer src="https://www.ai-make.co.kr/stats/stats.js" data-site="es"></script>
+  <!-- 견적 품목표 · 견적 코드 읽기 — schedule.html 과 함께 쓴다 -->
+  <script src="quote-catalog.js"></script>
 </head>
 <body>
+
+<!-- 손님이 Ctrl+P 로 인쇄를 걸었을 때만 종이에 나오는 쪽지 -->
+<div class="cust-print">
+  <h2>견적서는 담당자 확인 뒤에 보내드립니다</h2>
+  <p>화면의 <b>「이 견적으로 문의 보내기」</b> 를 눌러 주시면<br>
+     현장 여건을 확인하고 <b>확정 견적서</b>를 메일로 보내드립니다.</p>
+  <p style="margin-top:8mm;">이에스컴퍼니 · <b>010-2084-0102</b> · www.es-company.co.kr</p>
+</div>
 
 <div class="noise-overlay"></div>
 
@@ -391,7 +415,7 @@
       <h1 style="font-size:clamp(2.1rem,5.5vw,3.4rem);font-weight:900;letter-spacing:-.045em;margin:1.1rem 0 1rem;">
         자동 견적서
       </h1>
-      <p style="color:#a1a1aa;font-size:1.02rem;line-height:1.8;">
+      <p id="hero-lead" style="color:#a1a1aa;font-size:1.02rem;line-height:1.8;">
         필요한 항목을 고르면 견적서가 자동으로 만들어집니다.
         <strong style="color:#fff;">수량 · 단가 · 항목명은 직접 고치실 수 있고</strong>, 필요한 항목을 새로 추가하셔도 됩니다.<br>
         <span style="color:#71717a;font-size:.92rem;">완성한 견적서는 인쇄(PDF 저장)하거나 그대로 문의로 보내실 수 있습니다.</span>
@@ -483,7 +507,7 @@
 
     <div class="block-title no-print" style="margin:2.25rem 0 1rem;">
       <span class="n">03</span>견적서
-      <span class="block-note">표 안의 값을 눌러 바로 수정하실 수 있습니다</span>
+      <span class="block-note" id="doc-note">표 안의 값을 눌러 바로 수정하실 수 있습니다</span>
     </div>
 
     <section class="glass doc" id="doc">
@@ -501,7 +525,7 @@
           <div><span class="lbl">사업자번호</span><b>710-09-02317</b></div>
           <div><span class="lbl">연락처</span><b>010-2084-0102</b></div>
           <div><span class="lbl">이메일</span><b>esgroup0102@naver.com</b></div>
-          <div><span class="lbl">홈페이지</span><b>brizymedia.github.io/es-company</b></div>
+          <div><span class="lbl">홈페이지</span><b>www.es-company.co.kr</b></div>
         </div>
         <div class="party">
           <div style="font-size:.7rem;letter-spacing:.16em;color:#4A8FE7;font-weight:700;margin-bottom:.35rem;">수요자</div>
@@ -593,6 +617,11 @@
         <iconify-icon icon="solar:bill-list-bold" style="font-size:18px;color:#4A8FE7;"></iconify-icon>
         이 견적으로 거래명세서 작성
       </button>
+      <button type="button" class="btn-ghost" id="btn-sched" hidden
+              style="padding:.85rem 1.5rem;font-size:.95rem;border-color:rgba(7,78,162,.5);">
+        <iconify-icon icon="solar:checklist-minimalistic-bold" style="font-size:18px;color:#4A8FE7;"></iconify-icon>
+        이 견적으로 행사 일정 만들기
+      </button>
     </div>
 
     <p class="no-print" id="send-note" style="text-align:center;font-size:.78rem;color:#52525b;margin-top:1rem;line-height:1.8;">
@@ -623,7 +652,7 @@
     </div>
   </div>
   <div style="max-width:80rem;margin:1.75rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06);font-size:.75rem;color:#3f3f46;">
-    이에스컴퍼니 · esgroup0102@naver.com · 충청북도 청주시 흥덕구 옥산면 오산가좌로 110-13, 1동 1층
+    이에스컴퍼니 · esgroup0102@naver.com · 충청북도 청주시 흥덕구 옥산면 오산가좌로 110-13, 1동 1층 · <a style="color:inherit;" href="/office.html" rel="nofollow">관리자 모드</a>
   </div>
 </footer>
 
@@ -659,7 +688,16 @@
               style="padding:.5rem .8rem;font-size:.8rem;flex:none;"></button>
     </div>
 
-    <div id="box-list" style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.6rem;"></div>
+    <div style="margin-top:1.2rem;position:relative;">
+      <iconify-icon icon="solar:magnifer-bold" style="position:absolute;left:.85rem;top:50%;transform:translateY(-50%);
+                    font-size:16px;color:#71717a;pointer-events:none;"></iconify-icon>
+      <input id="box-find" type="search" placeholder="회사명 · 이름 · 전화번호 · 행사명으로 찾기"
+             style="width:100%;background:#102A5C;border:1px solid rgba(255,255,255,.12);border-radius:.7rem;
+                    padding:.65rem .8rem .65rem 2.4rem;color:#fff;font-size:.86rem;outline:none;">
+    </div>
+    <p id="box-found" style="margin-top:.5rem;font-size:.75rem;color:#71717a;"></p>
+
+    <div id="box-list" style="margin-top:.7rem;display:flex;flex-direction:column;gap:.6rem;"></div>
 
     <div style="margin-top:1.3rem;display:flex;gap:.6rem;">
       <button type="button" class="btn-ghost" id="box-close"
@@ -809,55 +847,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (el) el.textContent = 견적_수신_이메일;
 });
 
-const CATALOG = [
-  { group:'천막 · 텐트', items:[
-    { id:'t1', name:'캐노피천막 3m×3m',  spec:'판매 · 체험 · 안내 부스 기본형 · 설치 · 철거 포함', unit:'동', price:null, qty:true },
-    { id:'t2', name:'캐노피천막 3m×6m',  spec:'넓은 부스 · 본부석 · 급식 공간',              unit:'동', price:null, qty:true },
-    { id:'t3', name:'몽골텐트',          spec:'운영본부 · 체험 프로그램 · 휴게 공간',          unit:'동', price:null, qty:true },
-    { id:'t4', name:'부스천막',          spec:'박람회 · 설명회용 조립 부스 · 간판 · 칸막이',    unit:'동', price:null, qty:true },
-    { id:'t5', name:'옆면 가림막',       spec:'햇빛 · 바람 · 비 가림',                        unit:'면', price:null, qty:true },
-  ]},
-  { group:'테이블 · 의자', items:[
-    { id:'d1', name:'듀라테이블',        spec:'접이식 1800 · 진열 · 접수 · 체험 · 급식',        unit:'개', price:null, qty:true },
-    { id:'d2', name:'테이블보 · 스커트', spec:'테이블 크기에 맞춰',                            unit:'장', price:null, qty:true },
-    { id:'d3', name:'의자',              spec:'관람석 · 대기석 · 체육관 행사용',                unit:'개', price:null, qty:true },
-    { id:'d4', name:'의자 커버',         spec:'협약식 · 기념식 · 내빈석',                      unit:'개', price:null, qty:true },
-    { id:'d5', name:'파라솔세트',        spec:'파라솔 + 테이블 + 의자 · 휴게 · 먹거리 존',      unit:'세트', price:null, qty:true },
-    { id:'d6', name:'캠핑세트',          spec:'캠핑의자 · 캠핑테이블 · 그늘막',                unit:'세트', price:null, qty:true },
-    { id:'d7', name:'다과테이블',        spec:'다과 · 케이터링 세팅용',                        unit:'개', price:null, qty:true },
-  ]},
-  { group:'무대 · 음향', items:[
-    { id:'s1', name:'무대 (덱 · 계단)',  spec:'크기 · 높이 협의 · 설치 · 철거 포함',           unit:'식', price:null },
-    { id:'s2', name:'연단 (포디움)',     spec:'개회사 · 축사',                                unit:'개', price:null, qty:true },
-    { id:'s3', name:'아크릴단상',        spec:'투명 아크릴 연단',                              unit:'개', price:null, qty:true },
-    { id:'s4', name:'음향 세트',         spec:'스피커 · 무선 마이크 · 믹서 · 운영',            unit:'식', price:null },
-    { id:'s5', name:'무선 마이크 추가',  spec:'핸드 / 핀 마이크',                             unit:'개', price:null, qty:true },
-    { id:'s6', name:'포토존 트러스',     spec:'트러스 구조물 + 현수막 · 백월',                 unit:'식', price:null },
-  ]},
-  { group:'부스 · 안전 · 안내', items:[
-    { id:'b1', name:'나무매대',          spec:'실내 축제 · 로비 판매 부스용 나무 프레임',       unit:'개', price:null, qty:true },
-    { id:'b2', name:'하드펜스',          spec:'인파 통제 · 구역 구분',                        unit:'개', price:null, qty:true },
-    { id:'b3', name:'줄 차단봉',         spec:'대기 줄 · 동선 구분',                          unit:'개', price:null, qty:true },
-    { id:'b4', name:'일반배너 · X배너',  spec:'부스명 · 안내 문구 출력 포함',                  unit:'개', price:null, qty:true },
-    { id:'b5', name:'자이언트배너',      spec:'대형 안내 · 행사명',                            unit:'개', price:null, qty:true },
-    { id:'b6', name:'A보드 안내판',      spec:'입구 · 동선 안내',                             unit:'개', price:null, qty:true },
-    { id:'b7', name:'태극기 · 기관기',   spec:'기념식 · 협약식 무대',                          unit:'식', price:null },
-  ]},
-  { group:'계절 · 기타 용품', items:[
-    { id:'e1', name:'삿갓난로',          spec:'겨울 야외 행사',                               unit:'대', price:null, qty:true },
-    { id:'e2', name:'대형 선풍기',       spec:'여름 야외 행사',                               unit:'대', price:null, qty:true },
-    { id:'e3', name:'아이스박스 · 보온통', spec:'급수 · 음료 · 급식 공간',                    unit:'개', price:null, qty:true },
-    { id:'e4', name:'케이블 프로텍터',   spec:'통로 가로지르는 전선 보호',                     unit:'개', price:null, qty:true },
-  ]},
-  { group:'기획 · 운영', items:[
-    { id:'p1', name:'행사기획 · 배치도', spec:'공간 구성 · 품목 수량 산출 · 동선',             unit:'식', price:null },
-    { id:'p2', name:'현장 운영 스태프',  spec:'설치 · 행사 중 대응 · 철거',                    unit:'명', price:null, qty:true },
-    { id:'p3', name:'운반 · 설치 · 철거', spec:'상하차 · 설치 · 철수 인건비',                  unit:'식', price:null },
-    { id:'p4', name:'출장비',            spec:'충북 · 충남 · 세종 · 대전 외 지역',             unit:'식', price:null },
-  ]},
-];
-const BY_ID = {};
-CATALOG.forEach(g => g.items.forEach(it => { BY_ID[it.id] = it; }));
 
 let rows = [];
 let seq  = 0;
@@ -935,6 +924,44 @@ $('#add-row').addEventListener('click', () => {
   if (last) last.querySelector('input').focus();
 });
 
+/* ── 손님 화면 ────────────────────────────────────────────
+   주소에 admin=1 이 없으면 손님이다. 손님 화면에서는
+   직인 · 품목명 · 규격 · 단가 · 할인 · 인쇄를 막는다 —
+   우리 양식 그대로 값만 바꿔 다른 데 비교견적으로 쓰이지 않게. */
+const 손님화면 = new URLSearchParams(location.search).get('admin') !== '1';
+const 잠근칸 = ['name', 'spec', 'unit', 'price'];
+
+function 손님가리기() {
+  if (!손님화면) return;
+  document.body.classList.add('cust');
+
+  const 직인 = document.querySelector('.co-name .stamp');
+  if (직인) 직인.remove();
+  const 직인안내 = $('#stamp-note');
+  if (직인안내) 직인안내.hidden = true;
+
+  ['#btn-print', '#add-row'].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+
+  const 할인줄 = $('#s-discount') && $('#s-discount').closest('.sum-row');
+  if (할인줄) 할인줄.hidden = true;
+
+  const 표안내 = $('#doc-note');
+  if (표안내) 표안내.textContent = '수량과 일수는 표에서 바로 고치실 수 있습니다';
+
+  const 머리글 = $('#hero-lead');
+  if (머리글) 머리글.innerHTML =
+    '필요한 항목을 고르면 견적서가 자동으로 만들어집니다. ' +
+    '<strong style="color:#fff;">수량과 일수는 직접 고치실 수 있습니다.</strong><br>' +
+    '<span style="color:#71717a;font-size:.92rem;">단가는 현장 여건(전원 · 진입로 · 설치 시간)에 따라 달라집니다. ' +
+    '아래 「이 견적으로 문의 보내기」 를 눌러 주시면 담당자가 확인하고 확정 견적서를 보내드립니다.</span>';
+
+  const 빈칸 = $('#q-empty');
+  if (빈칸) 빈칸.innerHTML =
+    '위에서 필요한 항목을 체크하시면 견적서가 채워집니다.<br>' +
+    '목록에 없는 항목은 <strong style="color:#a1a1aa;">문의하실 때 적어</strong> 주시면 됩니다.';
+}
+손님가리기();
+
 function render() {
   const body = $('#q-body');
   body.textContent = '';
@@ -961,7 +988,18 @@ function render() {
     tr.querySelector('[data-f="days"]').value  = r.days;
     tr.querySelector('[data-f="price"]').value = (r.price === null ? '' : r.price.toLocaleString('ko-KR'));
 
+    if (손님화면) {
+      잠근칸.forEach((f) => {
+        const el = tr.querySelector('[data-f="' + f + '"]');
+        if (!el) return;
+        el.readOnly = true;
+        el.tabIndex = -1;
+        el.classList.add('locked');
+      });
+    }
+
     tr.querySelectorAll('input').forEach((inp) => {
+      if (손님화면 && 잠근칸.indexOf(inp.dataset.f) >= 0) return;   /* 손님은 수량 · 일수만 고친다 */
       inp.addEventListener('input', () => {
         const f = inp.dataset.f;
         if (f === 'price') {
@@ -1051,7 +1089,6 @@ function syncParty() {
 }
 INFO.forEach((k) => $('#q-' + k).addEventListener('input', () => { syncParty(); saveHash(); }));
 
-const INFO_KEY = { org:'o', name:'n', tel:'t', email:'e', title:'m', date:'d', place:'p', people:'c', memo:'x' };
 
 const b64u = (s) => btoa(unescape(encodeURIComponent(s)))
                       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -1083,38 +1120,18 @@ function encodeState() {
 
 function decodeState(str) {
   try {
-    const s = JSON.parse(unb64u(str));
-    INFO.forEach((k, idx) => {
-      const i = s.i;
-      if (!i) return;
-      const v = Array.isArray(i) ? i[idx]
-              : (i[INFO_KEY[k]] != null ? i[INFO_KEY[k]] : i[k]);
-      if (v != null) $('#q-' + k).value = v;
-    });
-    rows = (s.r || []).map((a) => {
-      const cat = (id) => BY_ID[id] || { name: '', spec: '', unit: '식' };
-      if (typeof a === 'string') {
-        const c = cat(a);
-        return { key: ++seq, id: a, name: c.name, spec: c.spec,
-                 qty: 1, unit: c.unit, days: 1, price: null };
-      }
-      if (a.length <= 4) {
-        const c = cat(a[0]);
-        return { key: ++seq, id: a[0], name: c.name, spec: c.spec,
-                 qty: a[1] != null ? a[1] : 1, unit: c.unit,
-                 days: a[2] != null ? a[2] : 1,
-                 price: a[3] != null ? a[3] : null };
-      }
-      return { key: ++seq, id: a[0], name: a[1], spec: a[2],
-               qty: a[3], unit: a[4], days: a[5], price: a[6] };
-    });
+    /* 푸는 규칙은 quote-catalog.js 에 둔다 — 행사 일정 화면도 같은 것으로 읽는다 */
+    const d = 견적풀기(str);
+    if (!d) return false;
+    INFO.forEach((k) => { if (d.정보[k]) $('#q-' + k).value = d.정보[k]; });
+    rows = d.줄.map((r) => Object.assign({ key: ++seq }, r));
     document.querySelectorAll('#catalog input[data-id]').forEach((cb) => { cb.checked = false; });
     rows.forEach((r) => {
       if (!r.id) return;
       const cb = document.querySelector(`#catalog input[data-id="${r.id}"]`);
       if (cb) cb.checked = true;
     });
-    $('#s-discount').value = (s.d || 0).toLocaleString('ko-KR');
+    $('#s-discount').value = (d.할인 || 0).toLocaleString('ko-KR');
     return true;
   } catch (e) { return false; }
 }
@@ -1168,7 +1185,7 @@ function 견적HTML() {
   // 메일 본문은 다른 PC에서 열리므로 직인은 절대 주소로 (상대경로는 안 보임)
   const 직인 = location.origin.startsWith('http')
     ? location.origin + location.pathname.replace(/[^/]*$/, '') + 'assets/img/stamp-es.png'
-    : 'https://brizymedia.github.io/es-company/assets/img/stamp-es.png';
+    : 'https://www.es-company.co.kr/assets/img/stamp-es.png';
 
   const 항목행 = rows.map((r, i) => {
     const 금액 = r.price === null ? null : (+r.qty || 0) * (+r.days || 0) * (+r.price || 0);
@@ -1211,7 +1228,7 @@ function 견적HTML() {
   <tr><td style="background:#111827;padding:18px 24px;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
       <td style="font-size:0;">
-        <img src="https://brizymedia.github.io/es-company/assets/img/logo-h-white.png" height="32" alt="이에스컴퍼니" style="vertical-align:middle;">
+        <img src="https://www.es-company.co.kr/assets/img/logo-h-white.png" height="32" alt="이에스컴퍼니" style="vertical-align:middle;">
       </td>
       <td align="right" style="font-size:11.5px;color:#9ca3af;white-space:nowrap;">천막 · 테이블 · 의자 · 무대 음향</td>
     </tr></table>
@@ -1241,7 +1258,7 @@ function 견적HTML() {
             ${정보칸('사업자', '710-09-02317')}
             ${정보칸('연락처', '010-2084-0102')}
             ${정보칸('이메일', 'esgroup0102@naver.com')}
-            ${정보칸('홈페이지', 'brizymedia.github.io/es-company')}
+            ${정보칸('홈페이지', 'www.es-company.co.kr')}
           </td>
         </tr></table>
       </td>
@@ -1555,6 +1572,26 @@ $('#btn-stmt').addEventListener('click', () => {
   window.open(url, '_blank');
 });
 
+/* 견적 품목을 행사 체크리스트로 넘긴다 — 현장에서 「이거 실었나」 를 확인하는 목록이 된다 */
+$('#btn-sched').addEventListener('click', () => {
+  if (!rows.length) { toast('견적 항목을 먼저 선택해 주세요'); return; }
+  const g = (k) => $('#q-' + k).value.trim();
+  const d = {
+    제목: g('title') || (g('org') ? g('org') + ' 행사' : ''),
+    날짜: g('date'), 장소: g('place'), 고객: g('org'),
+    담당: [g('name'), g('tel')].filter(Boolean).join(' · '),
+    인원: g('people'), 비고: g('memo'),
+    코드: encodeState(),
+    항목: rows.map((r) => ({
+      이름: r.name,
+      메모: [r.spec, (+r.qty > 1 ? r.qty + (r.unit || '') : ''), (+r.days > 1 ? r.days + '일' : '')]
+              .filter(Boolean).join(' · '),
+    })),
+  };
+  const url = location.href.replace(/[?#].*$/, '').replace(/quote\.html$/, 'schedule.html') + '#new=' + b64u(JSON.stringify(d));
+  window.open(url, '_blank');
+});
+
 $('#send-close').addEventListener('click',   () => { $('#send-modal').hidden = true; });
 $('#send-modal').addEventListener('click', (e) => { if (e.target.id === 'send-modal') $('#send-modal').hidden = true; });
 $('#send-gmail').addEventListener('click',   () => { window.open(지메일URL(), '_blank', 'noopener'); });
@@ -1733,7 +1770,9 @@ function 견적서담기() {
   목록.unshift({
     코드,
     제목:   $('#q-title').value.trim(),
-    고객:   [$('#q-org').value.trim(), $('#q-name').value.trim()].filter(Boolean).join(' · '),
+    /* 전화번호까지 같이 담는다 — 저장함에서 번호로 찾을 수 있게 */
+    고객:   [$('#q-org').value.trim(), $('#q-name').value.trim(), $('#q-tel').value.trim()]
+              .filter(Boolean).join(' · '),
     행사일: $('#q-date').value,
     금액:   $('#s-total').textContent.trim(),
     항목:   rows.length,
@@ -1753,9 +1792,30 @@ function 견적서담기() {
     .catch((e) => { 맞춤표시('오류', e.message); toast('담았지만 다른 기기에는 아직 못 올렸습니다'); });
 }
 
+/* 띄어쓰기 · 가운뎃점 · 줄표를 지우고 견준다 — 01012345678 로도 010-1234-5678 이 찾아진다 */
+const 납작 = (v) => String(v == null ? '' : v).toLowerCase().replace(/[\s\-·.,()]/g, '');
+let 보여준목록 = [];
+
 function 저장함그리기() {
-  const 목록 = 저장목록();
+  const 다 = 저장목록();
+  const 찾는말 = 납작(($('#box-find') || {}).value);
+  const 목록 = 찾는말
+    ? 다.filter((q) => 납작([q.제목, q.고객, q.행사일].join(' ')).indexOf(찾는말) >= 0)
+    : 다;
+  보여준목록 = 목록;
   const box = $('#box-list');
+
+  $('#box-found').textContent = !다.length ? ''
+    : 찾는말 ? (목록.length ? 다.length + '개 중 ' + 목록.length + '개' : '')
+            : 다.length + '개 담겨 있습니다';
+
+  if (찾는말 && !목록.length) {
+    box.innerHTML =
+      '<div style="padding:1.5rem 1rem;text-align:center;font-size:.86rem;color:#52525b;' +
+      'border:1px dashed rgba(255,255,255,.12);border-radius:.8rem;line-height:1.8;">' +
+      '찾는 견적서가 없습니다.<br>회사명 · 이름 · 전화번호 · 행사명으로 찾아보세요.</div>';
+    return;
+  }
 
   if (!목록.length) {
     box.innerHTML =
@@ -1789,6 +1849,7 @@ function 저장함그리기() {
 }
 
 $('#btn-box').addEventListener('click', () => {
+  $('#box-find').value = '';
   저장함그리기();
   맞춤표시(함께쓰나() ? '켬' : '끔');
   $('#box-modal').hidden = false;
@@ -1818,14 +1879,14 @@ $('#box-sync-btn').addEventListener('click', async () => {
 $('#box-close').addEventListener('click', () => { $('#box-modal').hidden = true; });
 $('#box-modal').addEventListener('click', (e) => { if (e.target.id === 'box-modal') $('#box-modal').hidden = true; });
 $('#box-save').addEventListener('click', 견적서담기);
+$('#box-find').addEventListener('input', 저장함그리기);
 
 $('#box-list').addEventListener('click', (e) => {
   const 열기   = e.target.closest('.box-open');
   const 지우기 = e.target.closest('.box-del');
-  const 목록   = 저장목록();
 
   if (열기) {
-    const q = 목록[+열기.dataset.i];
+    const q = 보여준목록[+열기.dataset.i];
     if (q && decodeState(q.코드)) {
       render();
       관리자표시();
@@ -1848,8 +1909,11 @@ $('#box-list').addEventListener('click', (e) => {
       지우기._t = setTimeout(() => { 저장함그리기(); }, 3000);
       return;
     }
-    const 뺀것 = 목록[+지우기.dataset.i];
-    목록.splice(+지우기.dataset.i, 1);
+    const 뺀것 = 보여준목록[+지우기.dataset.i];
+    if (!뺀것) return;
+    const 목록 = 저장목록();
+    const i = 목록.findIndex((x) => x.코드 === 뺀것.코드);
+    if (i >= 0) 목록.splice(i, 1);
     저장목록쓰기(목록);
     저장개수표시();
     저장함그리기();
@@ -1877,6 +1941,7 @@ function 관리자표시() {
   $('#btn-to-customer').hidden = false;
   $('#btn-contract').hidden = false;
   $('#btn-stmt').hidden = false;
+  $('#btn-sched').hidden = false;
   const to = $('#q-email').value.trim();
   $('#admin-to').textContent = to || '고객 이메일 (미입력)';
 }

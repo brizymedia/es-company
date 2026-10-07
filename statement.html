@@ -37,6 +37,10 @@
   select.in{color-scheme:dark;background-color:#102A5C;appearance:none;-webkit-appearance:none;padding-right:2.1rem;cursor:pointer;background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23A9A3B4' d='M1 1.5 6 6.5l5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center;background-size:11px 8px;}
   select.in option{background:#102A5C;color:#fff}
   .hint{font-size:.76rem;color:#71717a;line-height:1.7;margin-top:.5rem}
+  /* 날짜 칸 — color-scheme 을 어둡게 안 주면 달력 아이콘이 까매서 어두운 바탕에서 안 보인다 */
+  input[type="date"],input[type="time"]{color-scheme:dark}
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator{opacity:.9;cursor:pointer}
 
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border-radius:9999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#fff;padding:.6rem 1.1rem;font-size:.85rem;font-weight:700;cursor:pointer;transition:.2s}
   .btn:hover{border-color:rgba(7,78,162,.5)}
@@ -128,7 +132,7 @@
   <section class="panel no-print">
     <h2><iconify-icon icon="solar:import-bold" style="color:#4A8FE7"></iconify-icon> 견적서에서 가져오기 <span>거래가 끝난 견적서 링크나 코드를 붙여 넣으세요</span></h2>
     <div style="display:flex;gap:.6rem;flex-wrap:wrap">
-      <input class="in" id="imp" style="flex:1;min-width:240px" placeholder="brizymedia.github.io/es-company/quote.html#q=… 링크 또는 코드">
+      <input class="in" id="imp" style="flex:1;min-width:240px" placeholder="www.es-company.co.kr/quote.html#q=… 링크 또는 코드">
       <button class="btn" id="btn-imp"><iconify-icon icon="solar:download-minimalistic-bold"></iconify-icon> 불러오기</button>
     </div>
     <p class="hint">견적서 화면의 <b>「이 견적으로 거래명세서 작성」</b> 단추를 쓰면 품목명까지 그대로 넘어옵니다.</p>
@@ -344,7 +348,7 @@ function 문서HTML(){
   const t = 합계();
   const 직인 = location.origin.startsWith('http')
     ? location.origin + location.pathname.replace(/[^/]*$/, '') + 'assets/img/stamp-es.png'
-    : 'https://brizymedia.github.io/es-company/assets/img/stamp-es.png';
+    : 'https://www.es-company.co.kr/assets/img/stamp-es.png';
   const kv = (k, v) => '<div class="kv"><span>' + k + '</span><b>' + esc(v || '-') + '</b></div>';
 
   const 행 = S.rows.filter((r) => r.on).map((r, i) => {

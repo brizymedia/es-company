@@ -83,6 +83,7 @@ NAV = [
     ('href="/quote.html', 'href="quote.html'), ('href="/contract.html', 'href="contract.html'), ('href="/"', 'href="index.html"'),
     ('>블로그</a>', '>행사 가이드</a>'),
     ('TOTAL EVENT AGENCY', 'ES COMPANY'),
+    ('src="/quote-catalog.js"', 'src="quote-catalog.js"'),
 ]
 
 # 렌탈 품목 — service.html 의 12개 카드와 같은 이름. 단가는 전부 협의(null)라 금액은 안 나오고 「협의」로 찍힌다.
@@ -186,8 +187,9 @@ def port(name, extra=None):
 def quote_extra(s):
     s = re.sub(r'\s*<p class="no-print" id="stamp-note".*?</p>', '', s, count=1, flags=re.S)
     s = re.sub(r'\s*<td valign="middle" align="right" width="66" style="padding-left:6px;">\s*<img src="\$\{직인\}".*?</td>', '', s, count=1, flags=re.S)
-    a = s.index('const CATALOG = ['); b = s.index('];', a) + 2
-    s = s[:a] + CATALOG + s[b:]
+    if 'const CATALOG = [' in s:   # 옛 원본: 품목표가 quote.html 안에 있던 때
+        a = s.index('const CATALOG = ['); b = s.index('];', a) + 2
+        s = s[:a] + CATALOG + s[b:]
     s = re.sub(r'<title>.*?</title>', '<title>자동 견적서 — 천막 · 테이블 · 의자 · 무대 음향 렌탈 | 이에스컴퍼니</title>', s, count=1)
     s = re.sub(r'<meta name="description" content="[^"]*">',
                '<meta name="description" content="청주 · 충북 · 충남 · 세종 · 대전 행사용품 렌탈 견적을 품목만 골라 바로 문의하세요. 캐노피천막 · 몽골텐트 · 듀라테이블 · 의자 · 파라솔세트 · 무대 음향 · 포토존 트러스 · 하드펜스까지. 이에스컴퍼니 010-2084-0102">\n  <meta name="robots" content="noindex,nofollow">', s, count=1)
@@ -213,7 +215,21 @@ def statement_extra(s):
     return s
 
 
+def port_catalog():
+    """quote-catalog.js — 원본은 큰길 품목표 + 견적 코드 읽기 함수. 품목표만 이에스컴퍼니 것으로 바꾸고 함수는 그대로."""
+    src = os.path.join(SRC, 'quote-catalog.js')
+    if not os.path.exists(src): print('quote-catalog.js 원본 없음 — 건너뜀'); return
+    s = open(src, encoding='utf-8').read()
+    s = rep_all(s, COMMON)
+    a = s.index('const CATALOG = ['); b = s.index('\n];', a) + 3
+    s = s[:a] + CATALOG + s[b:]
+    open(os.path.join(SITE, 'quote-catalog.js'), 'w', encoding='utf-8', newline='\n').write(s)
+    left = [w for w in ('큰길', '김동길', '광양', '브리지미디어', '전남') if w in s]
+    print('quote-catalog.js 남은 흔적:', left or '없음')
+
+
 if __name__ == '__main__':
+    port_catalog()
     port('quote.html', quote_extra)
     port('contract.html', contract_extra)
     port('statement.html', statement_extra)
