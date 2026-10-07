@@ -742,3 +742,17 @@ input,select,textarea{font:inherit;color:inherit}
 @media (max-width:1100px){.pgrid.four{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:900px){.post-wrap{grid-template-columns:1fr}.side{position:static}}
 @media (max-width:560px){.pgrid,.pgrid.four{grid-template-columns:1fr}.post-nav{grid-template-columns:1fr}.post-nav a.nx{text-align:left}.post .lead{font-size:15.5px}.post p{font-size:15.5px}}
+
+/* ---------- 지역 페이지 · 바닥글 지역 링크 ---------- */
+.regions ul li a{color:#fff;text-decoration:none;margin:0;font-size:inherit;font-weight:600}
+.regions ul li a:hover{text-decoration:underline}
+.region div li a{color:inherit;text-decoration:none}
+.region div li a:hover{color:var(--acc)}
+.footer .flinks{margin:14px 0 0;font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.9}
+.footer .flinks a{color:rgba(255,255,255,.7)}
+.footer .flinks a:hover{color:#fff}
+.side .arealinks{display:flex;flex-wrap:wrap;gap:6px}
+.side .arealinks a{padding:5px 10px;border-radius:99px;background:var(--bg2);font-size:12.5px;font-weight:600;color:var(--txt)}
+.side .arealinks a.on,.side .arealinks a:hover{background:var(--acc);color:#fff}
+.post.area .pgrid{margin:10px 0 26px}
+.post.area .bloglist{margin:10px 0 26px}

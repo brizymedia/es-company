@@ -204,14 +204,14 @@
 
   /* ---------- 갤러리 (대문 9장 · 현장사진 전체) ---------- */
   var gal = $('#gal'), pf = $('#pfGrid'), list = [];
-  if (gal) { list = [0, 3, 6, 11, 14, 20, 24, 26, 33].map(function (k) { return WORKS[k]; }); gal.innerHTML = list.map(workCard).join(''); }
-  if (pf) { list = WORKS; pf.innerHTML = list.map(workCard).join(''); }
+  if (gal) { list = WORKS; if (!gal.children.length) gal.innerHTML = [0, 3, 6, 11, 14, 20, 24, 26, 33].map(function (k) { return workCard(WORKS[k], k); }).join(''); }  // data-k 는 WORKS 번호 (미리 그린 HTML 과 같은 규칙)
+  if (pf) { list = WORKS; if (!pf.children.length) pf.innerHTML = list.map(workCard).join(''); }
   var grid = gal || pf;
   var lb = $('#lb');
   if (grid && lb) {
     var figs = $$('figure', grid), lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), lbK = 0;
     function visible() { return figs.filter(function (f) { return !f.classList.contains('hide'); }).map(function (f) { return +f.getAttribute('data-k'); }); }
-    function openLb(k) { var w = list[k]; lbK = k; lbImg.src = IMG + w.i + '.webp'; lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o + ' · ' + w.y; lb.classList.add('on'); document.body.style.overflow = 'hidden'; }
+    function openLb(k) { var w = WORKS[k]; lbK = k; lbImg.src = IMG + w.i + '.webp'; lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o + ' · ' + w.y; lb.classList.add('on'); document.body.style.overflow = 'hidden'; }
     function closeLb() { lb.classList.remove('on'); document.body.style.overflow = ''; }
     function stepLb(d) { var v = visible(), i = v.indexOf(lbK); openLb(v[(i + d + v.length) % v.length]); }
     grid.addEventListener('click', function (e) { var f = e.target.closest('figure'); if (f) openLb(+f.getAttribute('data-k')); });
@@ -232,7 +232,7 @@
   if (bl) {
     var LIMIT = +bl.getAttribute('data-limit') || 10, shown = LIMIT;
     function blogRow(b, k) { return '<a href="' + b.u + '" target="_blank" rel="noopener"' + (k >= shown ? ' class="hide"' : '') + '><small>' + b.d + '</small><b>' + b.t + '</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>'; }
-    bl.innerHTML = BLOG.map(blogRow).join('');
+    if (!bl.children.length) bl.innerHTML = BLOG.map(blogRow).join('');
     var more = $('#blogMore');
     if (more) {
       if (BLOG.length <= LIMIT) more.hidden = true;

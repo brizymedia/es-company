@@ -270,7 +270,9 @@ def header(R):
   <div class="foot">대표 박미배 · {TEL}<br>충북 청주시 흥덕구 옥산면 오산가좌로 110-13<a class="btn btn-pri" href="tel:{TEL}">전화로 바로 상담</a></div>
 </div>'''
 
+AREA_NAMES = [('cheongju', '청주'), ('chungju', '충주'), ('jecheon', '제천'), ('jeungpyeong', '증평'), ('jincheon', '진천'), ('goesan', '괴산'), ('eumseong', '음성'), ('danyang', '단양'), ('boeun', '보은'), ('okcheon', '옥천'), ('yeongdong', '영동'), ('cheonan', '천안'), ('sejong', '세종'), ('daejeon', '대전')]
 def footer(R):
+    AREA_LINKS = ' · '.join(f'<a href="{R}areas/{s}.html">{n}</a>' for s, n in AREA_NAMES)
     return f'''<footer class="footer">
   <div class="wrap">
     <div class="top-row">
@@ -289,6 +291,7 @@ def footer(R):
         <li><b>사업자등록번호</b>710-09-02317</li>
         <li><b>운영 지역</b>충북 · 충남 · 세종 · 대전</li></ul></div>
     </div>
+    <p class="flinks">지역별 안내: {AREA_LINKS}</p>
     <div class="bot"><span>COPYRIGHT © 2026 이에스컴퍼니. ALL RIGHTS RESERVED.</span><span><a href="#top">맨 위로 ↑</a></span></div>
   </div>
 </footer>
@@ -349,7 +352,7 @@ def head(title, desc, url, image, kw, extra=''):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../assets/style.css?v=3">
+<link rel="stylesheet" href="../assets/style.css?v=5">
 {extra}'''
 
 def post_url(p): return BASE + 'blog/' + p['slug'] + '.html'
@@ -425,7 +428,7 @@ def render_post(p, k):
 </section>
 </main>
 {footer(R)}
-<script src="../assets/app.js?v=3"></script>
+<script src="../assets/app.js?v=4"></script>
 </body>
 </html>
 '''
@@ -466,7 +469,7 @@ def render_index():
 </section>
 </main>
 {footer(R)}
-<script src="../assets/app.js?v=3"></script>
+<script src="../assets/app.js?v=4"></script>
 </body>
 </html>
 '''
@@ -524,7 +527,7 @@ def inject_pages():
         # 메뉴: 행사이야기 → 행사 가이드
         s = s.replace('<a href="portfolio.html#blog">행사이야기</a>', '<a href="blog/index.html">행사 가이드</a>')
         s = s.replace('<a href="portfolio.html#blog">행사이야기<small>STORY</small></a>', '<a href="blog/index.html">행사 가이드<small>GUIDE</small></a>')
-        s = s.replace('assets/style.css?v=2', 'assets/style.css?v=3').replace('assets/app.js?v=2', 'assets/app.js?v=3')
+        s = s.replace('assets/style.css?v=2', 'assets/style.css?v=5').replace('assets/app.js?v=2', 'assets/app.js?v=4')
         open(p, 'w', encoding='utf-8').write(s)
         print('seo', fn)
 
@@ -566,3 +569,4 @@ if __name__ == '__main__':
     open(os.path.join(SITE, 'blog', 'index.html'), 'w', encoding='utf-8').write(render_index())
     print('posts', len(POSTS))
     inject_pages(); inject_index_guide(); write_sitemap()
+    import build_extra; build_extra.main()

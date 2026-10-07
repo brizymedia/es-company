@@ -88,6 +88,13 @@ npx -y http-server C:/Users/gilau/Documents/es-company -p 8179 -c-1
 - 문의 서버: ai-make 레포 `문의폼-AppsScript-코드.gs` 2026-10-01b 부터 `es-company`·`이에스컴퍼니` 가 보이면 esgroup0102@naver.com 에도 같이 보내고, 메일의 견적서 단추가 이 사이트 `quote.html` 로 열린다. **형님이 새 버전으로 재배포해야 반영**(그 전엔 큰길브리지만 받음). 사장님 수정 요청(edit.js)은 큰길브리지만 받는다.
 - 케어팩 알림: 예약 작업 `es-company-carepack-reminder` 가 2027-08-16 09:00 에 한 번 울린다(앱이 켜져 있어야 함, 꺼져 있으면 다음 실행 때).
 
+## 검색 노출 보강 2차 (2026-10-08, `tools/build_extra.py` — build_blog.py 가 끝에 자동 실행)
+
+- `areas/` 지역 페이지 14개 + 목록 — 「청주 천막 대여」류 지역 검색. 지역마다 다른 사례 · 현장 기준 · FAQ, `Service`(areaServed) + `FAQPage` 구조화. 대문 지역 띠 · 회사소개 칩 · 전 페이지 바닥글에서 링크.
+- 갤러리(대문 9 · 현장사진 39) · 블로그 글 목록을 HTML 로 미리 그려 넣음 — 네이버 로봇은 JS 를 잘 안 돌리므로. app.js 는 이미 그려져 있으면 건너뛴다. `WORKS`·`BLOG` 를 고치면 build 를 다시 돌려야 HTML 도 바뀐다.
+- `llms.txt`(AI 검색용 회사 요약) · `rss.xml`(가이드 10편, 서치어드바이저 RSS 제출용) · `robots.txt` AI 로봇 명시 허용 · service.html 품목 12종 `ItemList`.
+- 형님이 할 것: 서치어드바이저 「RSS 제출」에 https://www.es-company.co.kr/rss.xml, 사이트맵 재제출(지역 15개 추가로 31개). 네이버 스마트플레이스 등록(업체 정보 · 사진 · 홈페이지 주소)은 대표 계정 필요.
+
 ## 오픈할 때 바꿀 것
 
 1. (완료) 검색 차단 해제 — 2026-09-15 github.io 주소로 검색 허용.
