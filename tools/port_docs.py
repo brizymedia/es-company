@@ -185,6 +185,8 @@ def port(name, extra=None):
 
 
 def quote_extra(s):
+    # 큰길 바닥글의 「관리자(office.html)」 링크 — 이에스컴퍼니에는 그 페이지가 없다
+    s = re.sub(r'\s*·\s*<a style="color:inherit;" href="/office\.html"[^>]*>.*?</a>', '', s, count=1, flags=re.S)
     s = re.sub(r'\s*<p class="no-print" id="stamp-note".*?</p>', '', s, count=1, flags=re.S)
     s = re.sub(r'\s*<td valign="middle" align="right" width="66" style="padding-left:6px;">\s*<img src="\$\{직인\}".*?</td>', '', s, count=1, flags=re.S)
     if 'const CATALOG = [' in s:   # 옛 원본: 품목표가 quote.html 안에 있던 때
