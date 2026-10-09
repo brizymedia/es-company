@@ -520,7 +520,7 @@
         </div>
         <div class="party" style="position:relative;">
           <div style="font-size:.7rem;letter-spacing:.16em;color:#4A8FE7;font-weight:700;margin-bottom:.35rem;">공급자</div>
-          <div><span class="lbl">상호</span><b class="co-name">이에스컴퍼니</b></div>
+          <div><span class="lbl">상호</span><b class="co-name">이에스컴퍼니<img class="stamp" src="assets/img/stamp-es.png" alt="이에스컴퍼니 대표 직인" onerror="this.style.display='none'"></b></div>
           <div><span class="lbl">대표자</span><b>박미배</b></div>
           <div><span class="lbl">사업자번호</span><b>710-09-02317</b></div>
           <div><span class="lbl">연락처</span><b>010-2084-0102</b></div>
@@ -623,6 +623,12 @@
         이 견적으로 행사 일정 만들기
       </button>
     </div>
+
+    <p class="no-print" id="stamp-note"
+       style="text-align:center;font-size:.78rem;color:#52525b;margin-top:1rem;">
+      <iconify-icon icon="solar:stamp-bold" style="font-size:15px;color:#71717a;vertical-align:-2px;"></iconify-icon>
+      공급자 칸에 <strong style="color:#71717a;">대표 직인</strong>이 찍혀 있습니다. 인쇄 · PDF 저장 · 메일 발송본에도 그대로 들어갑니다.
+    </p>
 
     <p class="no-print" id="send-note" style="text-align:center;font-size:.78rem;color:#52525b;margin-top:1rem;line-height:1.8;">
       누르시면 <strong style="color:#71717a;">견적 내용이 그대로 접수됩니다.</strong>
@@ -1259,6 +1265,10 @@ function 견적HTML() {
             ${정보칸('연락처', '010-2084-0102')}
             ${정보칸('이메일', 'esgroup0102@naver.com')}
             ${정보칸('홈페이지', 'www.es-company.co.kr')}
+          </td>
+          <td valign="middle" align="right" width="66" style="padding-left:6px;">
+            <img src="${직인}" width="62" height="62" alt="이에스컴퍼니 대표 직인"
+                 style="display:block;width:62px;height:62px;border:0;outline:none;">
           </td>
         </tr></table>
       </td>

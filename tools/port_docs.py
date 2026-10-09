@@ -157,8 +157,9 @@ def logo_fix(s):
 
 
 def no_stamp(s):
-    # 이에스컴퍼니 직인 파일이 없다 → 직인 칸을 비운다. 대표 인감(투명 PNG)을 받으면 assets/img/stamp-es.png 로 넣으면 찍힌다.
-    s = s.replace('<img class="stamp" src="stamp-keungil.png" alt="이에스컴퍼니 대표 직인" onerror="this.style.display=\'none\'">', '')
+    # 대표 인감(투명 PNG) = assets/img/stamp-es.png (2026-10-10 박 대표 전달분). 세 서류 모두 이 파일을 찍는다.
+    s = s.replace('<img class="stamp" src="stamp-keungil.png" alt="이에스컴퍼니 대표 직인"',
+                  '<img class="stamp" src="assets/img/stamp-es.png" alt="이에스컴퍼니 대표 직인"')
     s = s.replace("'stamp-keungil.png'", "'assets/img/stamp-es.png'")
     s = s.replace("'https://xn--wk0bn7yi8h24iszc.com/stamp-keungil.png'", "'" + HOME + "/assets/img/stamp-es.png'")
     s = s.replace('src="stamp-keungil\\.png', 'src="assets\\/img\\/stamp-es\\.png')
@@ -187,8 +188,6 @@ def port(name, extra=None):
 def quote_extra(s):
     # 큰길 바닥글의 「관리자(office.html)」 링크 — 이에스컴퍼니에는 그 페이지가 없다
     s = re.sub(r'\s*·\s*<a style="color:inherit;" href="/office\.html"[^>]*>.*?</a>', '', s, count=1, flags=re.S)
-    s = re.sub(r'\s*<p class="no-print" id="stamp-note".*?</p>', '', s, count=1, flags=re.S)
-    s = re.sub(r'\s*<td valign="middle" align="right" width="66" style="padding-left:6px;">\s*<img src="\$\{직인\}".*?</td>', '', s, count=1, flags=re.S)
     if 'const CATALOG = [' in s:   # 옛 원본: 품목표가 quote.html 안에 있던 때
         a = s.index('const CATALOG = ['); b = s.index('];', a) + 2
         s = s[:a] + CATALOG + s[b:]
@@ -211,8 +210,9 @@ def contract_extra(s):
 def statement_extra(s):
     s = s.replace("우리.name + ' (' + 우리.brand + ')'", "우리.name")
     s = s.replace("esc(우리.name) + ' (' + esc(우리.brand) + ')'", "esc(우리.name)")
+    s = s.replace("esc(우리.name) + ' (' + esc(우리.brand) + ')</b>", "esc(우리.name) + '</b>")   # 바닥글 「이에스컴퍼니 (이에스컴퍼니)」 방지
+    s = s.replace("우리.name + ' (' + 우리.brand + ') · ' + 우리.tel", "우리.name + ' · ' + 우리.tel")
     s = s.replace('alt="이에스컴퍼니 대표 직인">', 'alt="이에스컴퍼니 대표 직인" onerror="this.remove()">')
-    s = s.replace('공급자 칸에 대표 직인이 찍혀 나갑니다. 인쇄 · PDF · 메일 발송본에도 그대로 들어갑니다.', '인쇄하거나 PDF 로 저장해 보내시면 됩니다.')
     s = s.replace('<title>거래명세서 — 이에스컴퍼니</title>', '<title>거래명세서 — 이에스컴퍼니</title>\n<meta name="robots" content="noindex,nofollow">')
     return s
 

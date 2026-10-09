@@ -84,7 +84,8 @@ npx -y http-server C:/Users/gilau/Documents/es-company -p 8179 -c-1
 
 - 서류 3종은 `python tools/port_docs.py` 가 큰길이벤트 원본(~/Documents/클로드코드)에서 옮긴다. **손으로 고치지 말고** 스크립트 규칙(회사 정보 · 품목 `CATALOG` · 색)을 고친 뒤 다시 돌린다.
 - 품목 단가는 전부 「협의」(null) — 금액이 안 찍힌다. 박미배 대표가 단가를 주면 `CATALOG` 의 `price` 에 넣는다.
-- 아직 비어 있는 것: `ES_BANK`(입금 계좌 — 계약서 제4조 · 거래명세서), `ES_CONTRACT`(계약 서버 /exec), 직인 `assets/img/stamp-es.png`(투명 PNG, 없으면 「(인)」 자리만).
+- 직인: `assets/img/stamp-es.png`(박 대표 인감, 투명 PNG 700px, 2026-10-10 반영) — 견적서 상호 옆 · 계약서 날인 칸(「날인 완료」 표시) · 거래명세서 공급자 칸에 찍힌다. 바꾸려면 같은 이름으로 덮어쓰면 된다.
+- 아직 비어 있는 것: `ES_BANK`(입금 계좌 — 계약서 제4조 · 거래명세서).
 - 문의 서버: ai-make 레포 `문의폼-AppsScript-코드.gs` 2026-10-01b 부터 `es-company`·`이에스컴퍼니` 가 보이면 esgroup0102@naver.com 에도 같이 보내고, 메일의 견적서 단추가 이 사이트 `quote.html` 로 열린다. **형님이 새 버전으로 재배포해야 반영**(그 전엔 큰길브리지만 받음). 사장님 수정 요청(edit.js)은 큰길브리지만 받는다.
 - 케어팩 알림: 예약 작업 `es-company-carepack-reminder` 가 2027-08-16 09:00 에 한 번 울린다(앱이 켜져 있어야 함, 꺼져 있으면 다음 실행 때).
 

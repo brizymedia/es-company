@@ -209,7 +209,7 @@
     <button class="btn" id="btn-copy"><iconify-icon icon="solar:copy-bold" style="color:#4A8FE7"></iconify-icon> 명세서 복사 (메일용)</button>
     <button class="btn pri" id="btn-mail"><iconify-icon icon="solar:letter-opened-bold"></iconify-icon> 거래처에 메일로 보내기</button>
   </div>
-  <p class="hint no-print" style="text-align:center">인쇄하거나 PDF 로 저장해 보내시면 됩니다.</p>
+  <p class="hint no-print" style="text-align:center">공급자 칸에 대표 직인이 찍혀 나갑니다. 인쇄 · PDF · 메일 발송본에도 그대로 들어갑니다.</p>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -404,7 +404,7 @@ function 문서HTML(){
     (S.memo ? esc(S.memo) + '<br>' : '') +
     '위와 같이 거래 내역을 통지합니다.' +
   '</div>' +
-  '<div class="sign">' + esc(S.issued) + '<br><b>' + esc(우리.name) + ' (' + esc(우리.brand) + ')</b> · ' + esc(우리.tel) + '</div>';
+  '<div class="sign">' + esc(S.issued) + '<br><b>' + esc(우리.name) + '</b> · ' + esc(우리.tel) + '</div>';
 }
 function 문서(){ $('#paper').innerHTML = 문서HTML(); }
 
@@ -477,7 +477,7 @@ $('#btn-mail').addEventListener('click', () => {
     '',
     '명세서 보기 : ' + 주소(),
     '',
-    우리.name + ' (' + 우리.brand + ') · ' + 우리.tel,
+    우리.name + ' · ' + 우리.tel,
   ].filter((x) => x !== '').join('\n');
   location.href = 'mailto:' + encodeURIComponent(S.cl.email || '') + '?subject=' + encodeURIComponent(제목) + '&body=' + encodeURIComponent(본문);
 });
