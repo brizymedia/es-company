@@ -1,0 +1,42 @@
+{
+ "updated": "",
+ "categories": [
+  {
+   "slug": "school",
+   "name": "학교행사 · 운동회",
+   "desc": "",
+   "count": 0
+  },
+  {
+   "slug": "sport",
+   "name": "체육대회 · 동문회",
+   "desc": "",
+   "count": 0
+  },
+  {
+   "slug": "fest",
+   "name": "축제 · 플리마켓 · 지역행사",
+   "desc": "",
+   "count": 0
+  },
+  {
+   "slug": "corp",
+   "name": "기업행사 · 가족행사",
+   "desc": "",
+   "count": 0
+  },
+  {
+   "slug": "gov",
+   "name": "관공서 · 기관 행사",
+   "desc": "",
+   "count": 0
+  },
+  {
+   "slug": "indoor",
+   "name": "실내행사 · 세미나",
+   "desc": "",
+   "count": 0
+  }
+ ],
+ "photos": []
+}
