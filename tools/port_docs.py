@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-큰길이벤트기획의 서류 3종(견적서 · 전자계약서 · 거래명세서)을 이에스컴퍼니용으로 옮긴다.
+큰길이벤트기획의 서류 3종(견적서 · 전자계약서 · 거래명세서)과 사진 올리기(upload.html, 블로그 · 인스타 글 자동 작성)를 이에스컴퍼니용으로 옮긴다.
 
   python tools/port_docs.py [큰길이벤트 레포 경로]      (기본 ~/Documents/클로드코드)
 
@@ -18,6 +18,9 @@ HOME = 'https://www.es-company.co.kr'   # 도메인이 정해지면 바꾸고 �
 ES_CONTRACT = 'https://script.google.com/macros/s/AKfycbxPDFzWN8wIOGglva2vDkBDzv1ap8yyrEUmrHPwK5io1II4bYlSFp6kMZk5JjYm6OeO5Q/exec'
 # 이에스컴퍼니 입금 계좌 — 박미배 대표에게 받아서 넣는다. 비어 있으면 계약서 제4조가 「을이 지정하는 계좌」로 나간다.
 ES_BANK = '하나은행 413-910548-17507 (예금주: 박미배 이에스컴퍼니)'
+# 사진 업로드 서버(앱스 스크립트, apps-script/gallery) — 어대리가 배포하면 /exec 주소를 넣고 다시 돌린다. 비어 있으면 upload.html 맨 위 「처음 한 번만 설정」 칸에 넣는다.
+GALLERY_URL = ''
+REPO = 'brizymedia/es-company'            # 올린 사진이 쌓이는 photos 가지의 레포
 
 LOGO = '<img src="assets/img/logo-mark.svg" alt="" style="width:2.3rem;height:2.3rem;display:block">'
 LOGO_S = '<img src="assets/img/logo-mark.svg" alt="" style="width:2.1rem;height:2.1rem;display:block">'
@@ -151,6 +154,7 @@ def rep_all(s, pairs):
 def logo_fix(s):
     s = re.sub(r'<span style="display:grid;place-items:center;width:2\.3rem;height:2\.3rem;[^"]*">KG</span>', LOGO, s)
     s = re.sub(r'<span style="display:grid;place-items:center;width:2\.1rem;height:2\.1rem;[^"]*">KG</span>', LOGO_S, s)
+    s = re.sub(r'<span style="display:grid;place-items:center;width:2\.2rem;height:2\.2rem;[^"]*">KG</span>', LOGO, s)
     s = re.sub(r'<span style="display:inline-block;width:32px;height:32px;line-height:32px;text-align:center;\s*background:#074EA2;[^"]*">KG</span>\s*<span style="[^"]*">이에스컴퍼니</span>', MAIL_LOGO, s)
     s = s.replace('<a class="brand" href="index.html"><i>KG</i> 이에스컴퍼니</a>', '<a class="brand" href="index.html"><img src="assets/img/logo-mark.svg" alt="" style="width:26px;height:26px;vertical-align:-7px;margin-right:6px">이에스컴퍼니</a>')
     return s
@@ -169,6 +173,126 @@ def no_stamp(s):
 def servers(s):
     s = re.sub(r"'https://script\.google\.com/macros/s/AKfycbwgO5Ry[A-Za-z0-9_-]+/exec'", repr(ES_CONTRACT) if ES_CONTRACT else "''", s)
     return s
+
+
+# ── 사진 올리기(upload.html) — 사진 칸 = portfolio.html 필터(school · sport · fest · corp · gov · indoor)와 같은 slug ──
+UPLOAD_CATS = """const 갤러리항목 = [
+  { slug: 'school', name: '학교행사 · 운동회',
+    desc: '초 · 중 · 고 운동회와 학교 행사 현장입니다. 캐노피천막과 본부석, 학년별 테이블 · 의자를 학교 일정에 맞춰 설치하고 철거했습니다.' },
+  { slug: 'sport',  name: '체육대회 · 동문회',
+    desc: '동문회 · 직장 · 마을 체육대회 현장입니다. 응원석 천막과 의자, 본부석 음향을 준비했습니다.' },
+  { slug: 'fest',   name: '축제 · 플리마켓 · 지역행사',
+    desc: '지역축제와 플리마켓, 공원 행사 현장입니다. 판매 부스 천막과 셀러 테이블, 파라솔세트와 하드펜스를 설치했습니다.' },
+  { slug: 'corp',   name: '기업행사 · 가족행사',
+    desc: '기업 가족행사와 야외 행사 현장입니다. 몽골텐트 · 체험 부스 · 테이블과 의자를 행사 동선에 맞춰 배치했습니다.' },
+  { slug: 'gov',    name: '관공서 · 기관 행사',
+    desc: '관공서 · 기관의 협약식 · 발대식 · 기념행사 현장입니다. 좌석과 테이블보, 연단과 음향 · 스크린을 준비했습니다.' },
+  { slug: 'indoor', name: '실내행사 · 세미나',
+    desc: '체육관 · 전시장 · 세미나장 실내 행사 현장입니다. 세미나 테이블과 의자, 캠핑의자와 좌식 테이블을 세팅했습니다.' },
+];"""
+
+UPLOAD_REGIONS = """const 지역표 = [
+  ['청주', ['청주', '흥덕', '서원', '상당', '청원', '오창', '오송', '옥산', '오스코']], ['충주', ['충주', '탄금']], ['제천', ['제천', '청풍']],
+  ['증평', ['증평']], ['진천', ['진천', '덕산', '혁신도시']], ['괴산', ['괴산']], ['음성', ['음성', '금왕']], ['단양', ['단양']],
+  ['보은', ['보은']], ['옥천', ['옥천']], ['영동', ['영동']], ['천안', ['천안', '불당', '성환']], ['아산', ['아산', '탕정']], ['공주', ['공주']],
+  ['세종', ['세종', '조치원', '나성']], ['대전', ['대전', '유성', '둔산', '엑스포']],
+];"""
+
+UPLOAD_GEAR = """const 장비표 = [
+  ['천막',   ['천막', '캐노피', '몽골텐트', '몽골', '부스', '텐트']],
+  ['테이블', ['테이블', '듀라', '매대', '탁자']],
+  ['의자',   ['의자', '캠핑의자', '좌석', '접이식']],
+  ['파라솔', ['파라솔']],
+  ['음향',   ['음향', '스피커', '마이크', '앰프', '사운드', '무대']],
+  ['트러스', ['트러스', '포토존', '아치']],
+  ['펜스',   ['펜스', '하드펜스', '차단봉', '바리케이드']],
+  ['캠핑',   ['캠핑', '좌식']],
+  ['케이터링', ['케이터링', '다과', '테이블보', '의자커버']],
+];"""
+
+UPLOAD_PREP = """const 준비목록 = {
+    '천막':   '캐노피천막 · 몽골텐트를 행사 동선에 맞춰 설치',
+    '테이블': '듀라테이블 · 나무매대를 인원에 맞춰 배치',
+    '의자':   '접이식 의자 · 캠핑의자 세팅',
+    '파라솔': '파라솔세트로 그늘 자리 마련',
+    '음향':   '무대 음향 시스템(스피커 · 무선 마이크) 세팅',
+    '트러스': '포토존 트러스 · 아치 설치',
+    '펜스':   '하드펜스 · 차단봉으로 동선과 안전 구역 구분',
+    '캠핑':   '캠핑세트 · 좌식 테이블 배치',
+    '케이터링': '테이블보 · 의자커버 · 다과 테이블 세팅',
+  };"""
+
+UPLOAD_TAGS = """const 장비태그 = { '천막': ['천막대여', '캐노피천막'], '테이블': ['테이블대여', '행사테이블'], '의자': ['의자대여', '행사의자'], '파라솔': ['파라솔대여'],
+                    '음향': ['행사음향', '음향장비대여'], '트러스': ['포토존트러스', '포토존설치'], '펜스': ['하드펜스', '안전펜스'], '캠핑': ['캠핑의자대여'], '케이터링': ['케이터링테이블'] };"""
+
+UPLOAD_PAIRS = [
+    # 글 생성기 — COMMON 치환 뒤의 문장을 기준으로 바꾼다 (회사명 · 전화 · 홈주소는 COMMON 이 먼저 바꿈)
+    ("['순천', '여수', '광양', '고흥', '하동', '남원', '광주', '진주', '통영']", "['청주', '충주', '제천', '진천', '음성', '천안', '세종', '대전']"),
+    ("['무대', '음향', '조명', 'LED']", "['천막', '테이블', '의자']"),
+    ("'이에스컴퍼니 · 전남광주통합특별시 광양'", "'이에스컴퍼니 · 충북 청주시 흥덕구 옥산면'"),
+    ("'행사기획 · 무대 · 음향 · LED · 조명 · MC/가수 섭외 · 드론쇼 — 광주·전남·경남 전역'", "'행사기획 · 행사용품 렌탈(캐노피천막 · 몽골텐트 · 테이블 · 의자 · 파라솔) · 무대 음향 — 충북 · 충남 · 세종 · 대전'"),
+    ("' 등 광주·전남·경남 어디든 광양에서 출발해 당일 세팅합니다. '", "' 등 충북 · 충남 · 세종 · 대전 어디든 청주에서 출발해 당일 설치 · 철거합니다. '"),
+    ("(지역 ? 지역 : '전남') + ' 일원에서 진행된 ' + 종류 + '입니다. 현장 여건에 맞춰 장비를 구성하고, 행사 시작 전 리허설로 소리와 조명을 먼저 잡았습니다.'",
+     "(지역 ? 지역 : '충북') + ' 일원에서 진행된 ' + 종류 + '입니다. 행사장 동선과 인원에 맞춰 천막과 테이블 · 의자를 배치하고, 행사 전날 또는 당일 아침에 설치를 마쳤습니다.'"),
+    ("'행사기획', '행사대행', '이벤트회사추천', '전남이벤트', '경남이벤트', '광양이벤트', '이에스컴퍼니'", "'행사용품렌탈', '천막대여', '테이블의자대여', '청주행사용품', '충북행사렌탈', '세종대전행사', '이에스컴퍼니'"),
+    ("'이벤트', '행사', '축제', '공연', '무대', 'event', 'stage', 'sound', 'lighting'", "'이벤트', '행사', '축제', '운동회', '천막', 'event', 'tent', 'rental', 'cheongju'"),
+    ("' 무대·음향·조명 준비, '", "' 천막·테이블·의자 준비, '"),
+    ("' 이벤트회사 이에스컴퍼니 — '", "' 행사용품 렌탈 이에스컴퍼니 — '"),
+    ("' 행사대행 사례 | '", "' 행사 렌탈 사례 | '"),
+    ("(장비들.includes('가수') || 장비들.includes('MC') ? ' · 섭외까지' : '')", "(장비들.includes('음향') ? ' · 음향까지' : '')"),
+    ("'행사 문의 010-2084-0102 · 프로필 링크 → 자동 견적서'", "'렌탈 문의 010-2084-0102 · 프로필 링크 → 자동 견적서'"),
+    # 조사 · 행사 종류 — 회사 이름이 받침 없는 글자로 끝나고, 렌탈 회사 행사 종류를 더한다
+    ("이에스컴퍼니이 ", "이에스컴퍼니가 "),
+    ("지역 + '을 비롯해 '", "지역 + ' 지역을 비롯해 '"),
+    ("['체육대회', ['체육대회', '운동회', '한마음']]", "['운동회', ['운동회']], ['체육대회', ['체육대회', '한마음']], ['플리마켓', ['플리마켓', '마켓', '장터']], ['가족행사', ['가족행사', '가족의날', '한마당']]"),
+    # 안내문 — 이 회사에는 사진으로 행사 이야기 글을 자동으로 만드는 작업이 없다 (사실대로)
+    ('여기 쓰신 글이 <b style="color:#4A8FE7;">홈페이지의 「행사 이야기」 글로 그대로 올라갑니다.</b>\n      고객이 읽고, 네이버·구글·AI 검색에도 잡힙니다. 아래 블로그·인스타 글을 만들 때도 쓰입니다.',
+     '여기 쓰신 글은 <b style="color:#4A8FE7;">현장사진 페이지의 사진 설명</b>으로 저장되고, 아래 <b style="color:#4A8FE7;">블로그 · 인스타 글</b>을 만들 때 쓰입니다.'),
+    ('\n      <b>비워두면 글 페이지가 만들어지지 않습니다.</b>', ''),
+    ('(무대·음향·LED·조명·MC·가수)', '(천막·테이블·의자·파라솔·음향)'),
+    ('(무대·음향·LED·조명·MC·가수·드론쇼)', '(천막·테이블·의자·파라솔·음향)'),
+    ('<b style="color:#a1a1aa;">행사 이야기 글의 대표 이미지</b>와\n        갤러리 칸 표지로 쓰입니다.', '<b style="color:#a1a1aa;">블로그 대표 이미지</b>로 쓰기 좋게 만들어 드립니다.'),
+    # 저장 이름 · 사진 저장소 · 사진 페이지 링크
+    ("'kg_", "'es_"),
+    ("'https://raw.githubusercontent.com/brizymedia/keungil-event/photos/photos/photos.json'", "'https://raw.githubusercontent.com/" + REPO + "/photos/photos/photos.json'"),
+    ("'https://cdn.jsdelivr.net/gh/brizymedia/keungil-event@photos/'", "'https://cdn.jsdelivr.net/gh/" + REPO + "@photos/'"),
+    ("홈주소 + '/gallery.html#' + 갤러리슬러그(이름)", "홈주소 + '/portfolio.html'"),
+]
+UPLOAD_PLACEHOLDER = '예) 청주 ○○초등학교 가을 운동회. 학년별 캐노피천막 12동과 본부석 몽골텐트, 테이블 · 의자 200조를 전날 저녁에 설치하고 행사 뒤 바로 철거했습니다.'
+
+
+def _swap_block(s, start, end='];'):
+    a = s.index(start); b = s.index(end, a) + len(end)
+    return s[:a], s[b:]
+
+
+def upload_extra(s):
+    for start, new, end in (('const 갤러리항목 = [', UPLOAD_CATS, '];'), ('const 지역표 = [', UPLOAD_REGIONS, '];'), ('const 장비표 = [', UPLOAD_GEAR, '];'),
+                            ('const 준비목록 = {', UPLOAD_PREP, '};'), ('const 장비태그 = {', UPLOAD_TAGS, '};')):
+        head, tail = _swap_block(s, start, end)
+        s = head + new + tail
+    for a, b in UPLOAD_PAIRS:
+        if a not in s: print('  upload.html: 못 찾은 문장 →', a[:60])
+        s = s.replace(a, b)
+    s = re.sub(r'placeholder="예\) 순천만 일원에서[^"]*"', 'placeholder="' + UPLOAD_PLACEHOLDER + '"', s)
+    s = s.replace("const 서버주소_기본 = '';", "const 서버주소_기본 = '" + GALLERY_URL + "';")
+    return s
+
+
+def port_gallery_server():
+    g = open(os.path.join(SRC, 'apps-script/gallery/Code.gs'), encoding='utf-8').read()
+    g = rep_all(g, [
+        (' * 큰길이벤트기획 · 행사 사진 업로드 서버', ' * 이에스컴퍼니 · 행사 사진 업로드 서버 (큰길이벤트기획 것을 옮긴 것)'),
+        ('GITHUB_REPO    brizymedia/keungil-event', 'GITHUB_REPO    ' + REPO),
+        ("'큰길이벤트기획 사진 업로드 서버'", "'이에스컴퍼니 사진 업로드 서버'"),
+        ("'keungil-photo-uploader'", "'es-photo-uploader'"),
+        ('큰길이벤트기획', '이에스컴퍼니'),
+    ])
+    p = os.path.join(SITE, 'apps-script/gallery/Code.gs'); os.makedirs(os.path.dirname(p), exist_ok=True)
+    open(p, 'w', encoding='utf-8', newline='\n').write(g)
+    left = [w for w in ('큰길', '김동길', '광양', 'keungil') if w in g]
+    print('apps-script/gallery/Code.gs 남은 흔적:', left or '없음')
+
 
 
 def port(name, extra=None):
@@ -235,3 +359,5 @@ if __name__ == '__main__':
     port('quote.html', quote_extra)
     port('contract.html', contract_extra)
     port('statement.html', statement_extra)
+    port('upload.html', upload_extra)
+    port_gallery_server()

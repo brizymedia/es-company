@@ -428,7 +428,7 @@ def render_post(p, k):
 </section>
 </main>
 {footer(R)}
-<script src="../assets/app.js?v=4"></script>
+<script src="../assets/app.js?v=5"></script>
 </body>
 </html>
 '''
@@ -469,7 +469,7 @@ def render_index():
 </section>
 </main>
 {footer(R)}
-<script src="../assets/app.js?v=4"></script>
+<script src="../assets/app.js?v=5"></script>
 </body>
 </html>
 '''
@@ -527,7 +527,7 @@ def inject_pages():
         # 메뉴: 행사이야기 → 행사 가이드
         s = s.replace('<a href="portfolio.html#blog">행사이야기</a>', '<a href="blog/index.html">행사 가이드</a>')
         s = s.replace('<a href="portfolio.html#blog">행사이야기<small>STORY</small></a>', '<a href="blog/index.html">행사 가이드<small>GUIDE</small></a>')
-        s = s.replace('assets/style.css?v=2', 'assets/style.css?v=5').replace('assets/app.js?v=2', 'assets/app.js?v=4')
+        s = s.replace('assets/style.css?v=2', 'assets/style.css?v=5').replace('assets/app.js?v=2', 'assets/app.js?v=5')
         open(p, 'w', encoding='utf-8').write(s)
         print('seo', fn)
 

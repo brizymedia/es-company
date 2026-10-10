@@ -2,6 +2,9 @@ User-agent: *
 Allow: /
 Disallow: /tools/
 Disallow: /apps-script/
+Disallow: /upload.html
+Disallow: /contract.html
+Disallow: /statement.html
 
 User-agent: Googlebot
 Allow: /

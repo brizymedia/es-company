@@ -80,10 +80,12 @@ npx -y http-server C:/Users/gilau/Documents/es-company -p 8179 -c-1
 | 견적서 발행 · 저장함(관리자) | `quote.html?admin=1` | 저장함 폰·PC 같이 보기는 계약 서버 |
 | 전자계약서 | `contract.html?admin=1` | 계약 서버(`apps-script/contract`) — 없으면 긴 링크 + 서명 통보 메일만 |
 | 거래명세서 | `statement.html?admin=1` | 없음 (견적서의 「이 견적으로 거래명세서 작성」에서 넘어옴) |
+| 사진 올리기 + 블로그 · 인스타 글 자동 작성 | `upload.html` | 사진 업로드 서버(`apps-script/gallery`, README 대로 설치) — 올린 사진은 photos 가지에 쌓이고 현장사진 페이지 앞에 붙는다. 서버 없이도 글 만들기는 된다 |
 | 문의 알림 | `contact.html` · 대문 폼 · 견적 요청서 | 큰길브리지 공용 문의 서버 → 박미배 대표 메일 + 큰길브리지 |
 
 - 서류 3종은 `python tools/port_docs.py` 가 큰길이벤트 원본(~/Documents/클로드코드)에서 옮긴다. **손으로 고치지 말고** 스크립트 규칙(회사 정보 · 품목 `CATALOG` · 색)을 고친 뒤 다시 돌린다.
 - 품목 단가는 전부 「협의」(null) — 금액이 안 찍힌다. 박미배 대표가 단가를 주면 `CATALOG` 의 `price` 에 넣는다.
+- 사진 올리기(2026-10-10, 고급형 「블로그 · 인스타 홍보글 자동생성」): `upload.html` 에서 행사명 · 날짜 · 장소 · 설명을 넣고 「블로그 · 인스타 글 미리 만들기」 → 네이버 블로그 제목 5개 · 본문 · 인스타 문구 · 해시태그가 지역 · 행사 종류 · 품목을 감지해 만들어진다(복사 · 공유). 사진까지 올리려면 서버 주소(`GALLERY_URL`)를 넣고 `tools/port_docs.py` 를 다시 돌리거나, 페이지 맨 위 「처음 한 번만 설정」 칸에 넣는다. 사진 칸 6개 = portfolio 필터와 같은 slug(school · sport · fest · corp · gov · indoor). 글 문구 · 지역표 · 품목표는 `tools/port_docs.py` 의 UPLOAD_* 에서 고친다.
 - 직인: `assets/img/stamp-es.png`(박 대표 인감, 투명 PNG 700px, 2026-10-10 반영) — 견적서 상호 옆 · 계약서 날인 칸(「날인 완료」 표시) · 거래명세서 공급자 칸에 찍힌다. 바꾸려면 같은 이름으로 덮어쓰면 된다.
 - 입금 계좌: `ES_BANK` = 하나은행 413-910548-17507 (예금주: 박미배 이에스컴퍼니), 2026-10-10 반영 — 계약서 제4조 · 거래명세서 기본값. 바뀌면 `tools/port_docs.py` 의 상수만 고치고 다시 실행.
 - 문의 서버: ai-make 레포 `문의폼-AppsScript-코드.gs` 2026-10-01b 부터 `es-company`·`이에스컴퍼니` 가 보이면 esgroup0102@naver.com 에도 같이 보내고, 메일의 견적서 단추가 이 사이트 `quote.html` 로 열린다. **형님이 새 버전으로 재배포해야 반영**(그 전엔 큰길브리지만 받음). 사장님 수정 요청(edit.js)은 큰길브리지만 받는다.

@@ -200,7 +200,7 @@ def render_area(r):
 </section>
 </main>
 {B.footer(R)}
-<script src="../assets/app.js?v=4"></script>
+<script src="../assets/app.js?v=5"></script>
 </body>
 </html>
 '''
@@ -232,7 +232,7 @@ def render_areas_index():
 <section class="sec"><div class="wrap"><div class="pgrid">{cards}</div></div></section>
 </main>
 {B.footer(R)}
-<script src="../assets/app.js?v=4"></script>
+<script src="../assets/app.js?v=5"></script>
 </body>
 </html>
 '''
@@ -292,7 +292,7 @@ def write_llms():
 
 def write_robots_sitemap():
     bots = ['Googlebot', 'Yeti', 'Bingbot', 'GPTBot', 'ChatGPT-User', 'OAI-SearchBot', 'ClaudeBot', 'Claude-User', 'anthropic-ai', 'PerplexityBot', 'Google-Extended', 'Applebot', 'Amazonbot', 'DuckDuckBot', 'Daum', 'Kakaobot']
-    txt = 'User-agent: *\nAllow: /\nDisallow: /tools/\nDisallow: /apps-script/\n\n' + ''.join('User-agent: %s\nAllow: /\n\n' % b for b in bots) + 'Sitemap: %ssitemap.xml\n' % BASE
+    txt = 'User-agent: *\nAllow: /\nDisallow: /tools/\nDisallow: /apps-script/\nDisallow: /upload.html\nDisallow: /contract.html\nDisallow: /statement.html\n\n' + ''.join('User-agent: %s\nAllow: /\n\n' % b for b in bots) + 'Sitemap: %ssitemap.xml\n' % BASE
     open(os.path.join(SITE, 'robots.txt'), 'w', encoding='utf-8').write(txt)
     p = os.path.join(SITE, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
     s = re.sub(r'  <url><loc>%sareas/.*?</url>\n' % re.escape(BASE), '', s)

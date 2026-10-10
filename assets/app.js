@@ -121,7 +121,7 @@
 
   function workCard(w, k) {
     return '<figure data-k="' + k + '" data-c="' + w.c + '">' +
-      '<img src="' + IMG + w.i + '.webp" alt="' + w.t + '" loading="lazy">' +
+      '<img src="' + (w.u || IMG + w.i + '.webp') + '" alt="' + w.t + '" loading="lazy">' +
       '<figcaption><em>' + w.o + ' · ' + w.y + '</em><b>' + w.t + '</b></figcaption></figure>';
   }
 
@@ -206,12 +206,27 @@
   var gal = $('#gal'), pf = $('#pfGrid'), list = [];
   if (gal) { list = WORKS; if (!gal.children.length) gal.innerHTML = [0, 3, 6, 11, 14, 20, 24, 26, 33].map(function (k) { return workCard(WORKS[k], k); }).join(''); }  // data-k 는 WORKS 번호 (미리 그린 HTML 과 같은 규칙)
   if (pf) { list = WORKS; if (!pf.children.length) pf.innerHTML = list.map(workCard).join(''); }
+  /* 대표님이 upload.html 로 올린 사진(photos 가지의 photos.json)을 앞에 붙인다 — 서버가 없거나 비어 있으면 그대로 */
+  var UP_LIST = 'https://raw.githubusercontent.com/brizymedia/es-company/photos/photos/photos.json';
+  var UP_IMG = 'https://cdn.jsdelivr.net/gh/brizymedia/es-company@photos/';
+  var UP_CAT = { school: '학교행사', sport: '체육대회', fest: '축제', corp: '기업행사', gov: '관공서', indoor: '실내행사' };
+  if (pf && window.fetch) {
+    fetch(UP_LIST + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.photos || !j.photos.length) return;
+      var up = j.photos.filter(function (x) { return x && x.path; }).map(function (x) {
+        return { u: UP_IMG + x.path.split('/').map(encodeURIComponent).join('/'), t: x.event || '행사 현장', o: [UP_CAT[x.cat] || '현장', x.place].filter(Boolean).join(' · '), y: (x.date || '').slice(0, 4) || '', c: x.cat || 'etc' };
+      });
+      list = up.concat(WORKS); pf.innerHTML = list.map(workCard).join(''); figs = $$('figure', pf);
+      var act = $('#filters .act'), f = act ? act.getAttribute('data-f') : 'all';
+      figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
+    }).catch(function () {});
+  }
   var grid = gal || pf;
   var lb = $('#lb');
   if (grid && lb) {
     var figs = $$('figure', grid), lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), lbK = 0;
     function visible() { return figs.filter(function (f) { return !f.classList.contains('hide'); }).map(function (f) { return +f.getAttribute('data-k'); }); }
-    function openLb(k) { var w = WORKS[k]; lbK = k; lbImg.src = IMG + w.i + '.webp'; lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o + ' · ' + w.y; lb.classList.add('on'); document.body.style.overflow = 'hidden'; }
+    function openLb(k) { var w = list[k]; lbK = k; lbImg.src = w.u || IMG + w.i + '.webp'; lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o + ' · ' + w.y; lb.classList.add('on'); document.body.style.overflow = 'hidden'; }
     function closeLb() { lb.classList.remove('on'); document.body.style.overflow = ''; }
     function stepLb(d) { var v = visible(), i = v.indexOf(lbK); openLb(v[(i + d + v.length) % v.length]); }
     grid.addEventListener('click', function (e) { var f = e.target.closest('figure'); if (f) openLb(+f.getAttribute('data-k')); });
