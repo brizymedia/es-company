@@ -17,7 +17,7 @@ HOME = 'https://www.es-company.co.kr'   # 도메인이 정해지면 바꾸고 �
 # 이에스컴퍼니 계약 서버(앱스 스크립트, apps-script/contract) — 형님이 배포하면 /exec 주소를 넣고 다시 돌린다. 비어 있으면 서버 없이 동작.
 ES_CONTRACT = 'https://script.google.com/macros/s/AKfycbxPDFzWN8wIOGglva2vDkBDzv1ap8yyrEUmrHPwK5io1II4bYlSFp6kMZk5JjYm6OeO5Q/exec'
 # 이에스컴퍼니 입금 계좌 — 박미배 대표에게 받아서 넣는다. 비어 있으면 계약서 제4조가 「을이 지정하는 계좌」로 나간다.
-ES_BANK = ''
+ES_BANK = '하나은행 413-910548-17507 (예금주: 박미배 이에스컴퍼니)'
 
 LOGO = '<img src="assets/img/logo-mark.svg" alt="" style="width:2.3rem;height:2.3rem;display:block">'
 LOGO_S = '<img src="assets/img/logo-mark.svg" alt="" style="width:2.1rem;height:2.1rem;display:block">'

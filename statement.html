@@ -227,7 +227,7 @@ function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('on
 
 const 우리 = { name:'이에스컴퍼니', brand:'이에스컴퍼니', rep:'박미배', biz:'710-09-02317',
   addr:'충청북도 청주시 흥덕구 옥산면 오산가좌로 110-13, 1동 1층', tel:'010-2084-0102', email:'esgroup0102@naver.com' };
-const 기본계좌 = '';
+const 기본계좌 = '하나은행 413-910548-17507 (예금주: 박미배 이에스컴퍼니)';
 
 const 새번호 = () => 'ES-' + 오늘().replace(/-/g,'') + '-' + Math.random().toString(36).slice(2,5).toUpperCase();
 const DEF = () => ({ v:1, no:새번호(), issued:오늘(),
