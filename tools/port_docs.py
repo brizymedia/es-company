@@ -359,5 +359,6 @@ if __name__ == '__main__':
     port('quote.html', quote_extra)
     port('contract.html', contract_extra)
     port('statement.html', statement_extra)
+    port('admin-lock.js')                  # 관리자 화면(?admin=1) 잠금 — 대표 암호(계약 서버 BOX_PW)
     port('upload.html', upload_extra)
     port_gallery_server()
