@@ -19,7 +19,7 @@ ES_CONTRACT = 'https://script.google.com/macros/s/AKfycbxPDFzWN8wIOGglva2vDkBDzv
 # 이에스컴퍼니 입금 계좌 — 박미배 대표에게 받아서 넣는다. 비어 있으면 계약서 제4조가 「을이 지정하는 계좌」로 나간다.
 ES_BANK = '하나은행 413-910548-17507 (예금주: 박미배 이에스컴퍼니)'
 # 사진 업로드 서버(앱스 스크립트, apps-script/gallery) — 어대리가 배포하면 /exec 주소를 넣고 다시 돌린다. 비어 있으면 upload.html 맨 위 「처음 한 번만 설정」 칸에 넣는다.
-GALLERY_URL = ''
+GALLERY_URL = 'https://script.google.com/macros/s/AKfycbxs2z3PORMTG0tJpvaH2B4nVA7YN7CLlNAfR_y4igS6j2EsZTr_ciH3AiRCPF7WtCwY/exec'   # 2026-10-13 어대리 배포 (gilauto325)
 REPO = 'brizymedia/es-company'            # 올린 사진이 쌓이는 photos 가지의 레포
 
 LOGO = '<img src="assets/img/logo-mark.svg" alt="" style="width:2.3rem;height:2.3rem;display:block">'
