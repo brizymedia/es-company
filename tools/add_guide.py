@@ -68,8 +68,8 @@ print('버전 올린 파일', n)
 # 4) robots — guide.html 검색 제외
 b = rd(os.path.join(SITE, 'tools/build_extra.py'))
 old = "Disallow: /statement.html\\n\\n'"
-assert old in b
 if 'guide.html' not in b:
+    assert old in b
     b = b.replace(old, "Disallow: /statement.html\\nDisallow: /guide.html\\n\\n'", 1); wr(os.path.join(SITE, 'tools/build_extra.py'), b); print('robots 규칙 추가')
 
 # 5) README
