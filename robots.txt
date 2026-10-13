@@ -5,6 +5,7 @@ Disallow: /apps-script/
 Disallow: /upload.html
 Disallow: /contract.html
 Disallow: /statement.html
+Disallow: /guide.html
 
 User-agent: Googlebot
 Allow: /

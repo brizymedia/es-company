@@ -331,3 +331,17 @@
     if (cf) cf.addEventListener('click', function () { location.href = 'contact.html#q=' + encodeURIComponent(build()); });
   }
 })();
+
+/* ---------- 홈페이지 사용 안내 — 바닥글 맨 끝 작은 링크 → guide.html (대표님용, 검색 제외) ---------- */
+(function () {
+  var cs = document.currentScript, base = cs && cs.src ? cs.src.replace(/assets\/app\.js(\?.*)?$/, '') : '';
+  function add() {
+    var ft = document.querySelector('footer'); if (!ft || ft.querySelector('.guide-entry')) return;
+    var d = document.createElement('div'); d.className = 'guide-entry';
+    d.style.cssText = 'text-align:center;padding:10px 0 16px;font-size:12px;line-height:1';
+    d.innerHTML = '<a href="' + base + 'guide.html" rel="nofollow" style="color:inherit;opacity:.55;text-decoration:none;display:inline-flex;align-items:center;gap:5px">' +
+      '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4z"/><path d="M20 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/></svg>홈페이지 사용 안내</a>';
+    ft.appendChild(d);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', add); else add();
+})();
