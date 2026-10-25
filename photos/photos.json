@@ -1,11 +1,11 @@
 {
- "updated": "2026-10-25T13:36:43.737Z",
+ "updated": "2026-10-25T13:42:20.575Z",
  "categories": [
   {
    "slug": "school",
    "name": "학교행사 · 운동회",
    "desc": "",
-   "count": 0
+   "count": 1
   },
   {
    "slug": "sport",
@@ -38,5 +38,17 @@
    "count": 0
   }
  ],
- "photos": []
+ "photos": [
+  {
+   "path": "photos/school/20261025-yurw-001.jpg",
+   "cat": "school",
+   "event": "2026 솔밭초등학교 행사용품 렌탈",
+   "date": "2026-10-25",
+   "place": "청주 솔밭초등학교",
+   "caption": "2026 솔밭초등학교 행사용품 렌탈",
+   "desc": "청주 솔밭초등학교 아버지회 행사에 식사할때 쓰일 듀라테이블과 플라스틱의자가 필요하다고 하셔서 당일 새벽에 설치해드렸습니다^^",
+   "thumb": "photos/_cover/20261025-yurw-sq.jpg",
+   "cover": "photos/_cover/20261025-yurw-wide.jpg"
+  }
+ ]
 }
