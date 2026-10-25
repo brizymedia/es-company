@@ -1,11 +1,11 @@
 {
- "updated": "",
+ "updated": "2026-10-25T13:31:02.958Z",
  "categories": [
   {
    "slug": "school",
    "name": "학교행사 · 운동회",
    "desc": "",
-   "count": 0
+   "count": 3
   },
   {
    "slug": "sport",
@@ -38,5 +38,39 @@
    "count": 0
   }
  ],
- "photos": []
+ "photos": [
+  {
+   "path": "photos/school/20261017-slz7-003.jpg",
+   "cat": "school",
+   "event": "2026 솔밭초 아버지회 행사",
+   "date": "2026-10-17",
+   "place": "청주 솔밭초등학교",
+   "caption": "2026 솔밭초 아버지회 행사",
+   "desc": "청주 솔밭초등학교 아버지회 행사에 식사할때 쓰일 듀라테이블과 플라스틱의자가 필요하다고 하셔서 당일 새벽에 설치해드렸습니다^^",
+   "thumb": "photos/_cover/20261017-slz7-sq.jpg",
+   "cover": "photos/_cover/20261017-slz7-wide.jpg"
+  },
+  {
+   "path": "photos/school/20261017-slz7-002.jpg",
+   "cat": "school",
+   "event": "2026 솔밭초 아버지회 행사",
+   "date": "2026-10-17",
+   "place": "청주 솔밭초등학교",
+   "caption": "2026 솔밭초 아버지회 행사",
+   "desc": "청주 솔밭초등학교 아버지회 행사에 식사할때 쓰일 듀라테이블과 플라스틱의자가 필요하다고 하셔서 당일 새벽에 설치해드렸습니다^^",
+   "thumb": "photos/_cover/20261017-slz7-sq.jpg",
+   "cover": "photos/_cover/20261017-slz7-wide.jpg"
+  },
+  {
+   "path": "photos/school/20261017-slz7-001.jpg",
+   "cat": "school",
+   "event": "2026 솔밭초 아버지회 행사",
+   "date": "2026-10-17",
+   "place": "청주 솔밭초등학교",
+   "caption": "2026 솔밭초 아버지회 행사",
+   "desc": "청주 솔밭초등학교 아버지회 행사에 식사할때 쓰일 듀라테이블과 플라스틱의자가 필요하다고 하셔서 당일 새벽에 설치해드렸습니다^^",
+   "thumb": "photos/_cover/20261017-slz7-sq.jpg",
+   "cover": "photos/_cover/20261017-slz7-wide.jpg"
+  }
+ ]
 }
