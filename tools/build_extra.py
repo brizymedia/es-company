@@ -200,7 +200,7 @@ def render_area(r):
 </section>
 </main>
 {B.footer(R)}
-<script src="../assets/app.js?v=6"></script>
+<script src="../assets/app.js?v=20261102"></script>
 </body>
 </html>
 '''
@@ -232,7 +232,7 @@ def render_areas_index():
 <section class="sec"><div class="wrap"><div class="pgrid">{cards}</div></div></section>
 </main>
 {B.footer(R)}
-<script src="../assets/app.js?v=6"></script>
+<script src="../assets/app.js?v=20261102"></script>
 </body>
 </html>
 '''

@@ -428,7 +428,7 @@ def render_post(p, k):
 </section>
 </main>
 {footer(R)}
-<script src="../assets/app.js?v=6"></script>
+<script src="../assets/app.js?v=20261102"></script>
 </body>
 </html>
 '''
@@ -469,7 +469,7 @@ def render_index():
 </section>
 </main>
 {footer(R)}
-<script src="../assets/app.js?v=6"></script>
+<script src="../assets/app.js?v=20261102"></script>
 </body>
 </html>
 '''
